@@ -13,6 +13,10 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('Instrument/', views.Instrument, name='Instrument'),
     path('Genre/', views.Genre, name='Genre'),
+    path('Video/', views.Video, name='Video'),
+    path('Continue/', views.Continue, name='Continue'),
+    path('Preview/', views.Preview, name='Preview'),
+
     path('login/',
          LoginView.as_view
          (

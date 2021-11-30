@@ -43,3 +43,43 @@ def Genre(request):
             'year':datetime.now().year,
         }
     )
+def Video(request):
+    """Renders the about page."""
+    assert isinstance(request, HttpRequest)
+    return render(
+        request,
+        'app/Video.html',
+        {
+            'title':'Video',
+            'message':'Your application description page.',
+            'year':datetime.now().year,
+        }
+    )
+
+def Continue(request):
+    """Renders the about page."""
+    assert isinstance(request, HttpRequest)
+    return render(
+        request,
+        'app/Continue.html',
+        {
+            'title':'Continue',
+            'message':'Your application description page.',
+            'year':datetime.now().year,
+        }
+    )
+
+def Preview(request):
+    """Renders the about page."""
+    assert isinstance(request, HttpRequest)
+    return render(
+        request,
+        'app/Preview.html',
+        {
+            'title':'Preview',
+            'message':'Your application description page.',
+            'year':datetime.now().year,
+        }
+    )
+
+
