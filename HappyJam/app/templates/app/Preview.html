@@ -1,11 +1,32 @@
 <!DOCTYPE html>
-
-<html lang="ja" xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - HappyJam</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/Instrument.css' %}" />
+    <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
 </head>
 <body>
+    <div class="box-center">
+        <div class="box">
+            <main>
+                <div class="title">
+                    <span>Preview</span>
+                </div>
+            </main>
+            <video width="900" height="500" src="" controls></video>
+
+            <form method="POST" action="{% url 'home' %}">
+                {% csrf_token %}
+                <input class="botton" type="submit" value="終了">
+            </form>
+
+        </div>
+    </div>
+
 
 </body>
 </html>

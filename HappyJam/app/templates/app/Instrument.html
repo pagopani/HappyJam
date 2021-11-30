@@ -17,7 +17,7 @@
                     <span>Choose<br />Instrument</span>
                 </div>
             </main>
-            <form method="POST" action="cgi-bin/index.py">
+            <form method="POST" action="{% url 'Video' %}">
                 {% csrf_token %}
 
                     <input class="botton" type="submit" value="guiter">
