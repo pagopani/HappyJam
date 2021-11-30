@@ -6,7 +6,7 @@
     <title>{{ title }} - HappyJam</title>
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/Genre.css' %}" />
     <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
 </head>
 <body>
@@ -16,19 +16,28 @@
                 <div class="title">
                     <span>Choose<br />Music</span>
                 </div>
-
             </main>
-
-
 
             <form method="POST" action="{% url 'Instrument' %}">
                 {% csrf_token %}
-                <main>
-
-                    <input class="button" type="submit" value="POP">
-                    <input class="button" type="submit" value="ROCK">
-                    <input class="button" type="submit" value="JAZZ">
-                </main>
+                <div class="card card-skin">
+                    <div class="card__imgframe" style="background:url(../img/pop.png) no-repeat center;"></div>
+                    <div class="card__textbox">
+                        <input class="botton" type="submit" value="pop">
+                    </div>
+                </div>
+                <div class="card card-skin">
+                    <div class="card__imgframe" style="background:url(../img/pop.png) no-repeat center;"></div>
+                    <div class="card__textbox">
+                        <input class="botton" type="submit" value="jazz">
+                    </div>
+                </div>
+                <div class="card card-skin">
+                    <div class="card__imgframe" style="background:url(../img/pop.png) no-repeat center;"></div>
+                    <div class="card__textbox">
+                        <input class="botton" type="submit" value="rock">
+                    </div>
+                </div>
             </form>
         </div>
     </div>

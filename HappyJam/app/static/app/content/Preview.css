@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+html {
+    height: 100%;
+    display: flex;
+}
+
+body {
+    position: relative;
+    margin: auto;
+    background: radial-gradient(circle, #0077ea, #1f4f96, #1b2949, #000 );
+    perspective: 500px;
+}

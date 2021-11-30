@@ -6,7 +6,7 @@
     <title>{{ title }} - HappyJam</title>
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/Instrument.css' %}" />
     <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
 </head>
 <body>
@@ -19,13 +19,10 @@
             </main>
             <form method="POST" action="cgi-bin/index.py">
                 {% csrf_token %}
-                <main>
 
-                    <input class="button" type="submit" value="guiter">
-                    <input class="button" type="submit" value="base">
-                    <input class="button" type="submit" value="piano">
-                    <input class="button" type="submit" value="drum">
-                </main>
+                    <input class="botton" type="submit" value="guiter">
+                    <input class="botton" type="submit" value="base">
+                    <input class="botton" type="submit" value="drum">
             </form>
         </div>
     </div>
