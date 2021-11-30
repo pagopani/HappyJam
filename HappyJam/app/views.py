@@ -31,14 +31,14 @@ def contact(request):
         }
     )
 
-def about(request):
+def Genre(request):
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
     return render(
         request,
-        'app/about.html',
+        'app/Genre.html',
         {
-            'title':'About',
+            'title':'Genre',
             'message':'Your application description page.',
             'year':datetime.now().year,
         }
