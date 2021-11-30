@@ -237,12 +237,13 @@ main {
 
 /*------------------------card-----------------------------*/
 
+
 .card {
     width: 288px;
     height: auto;
 }
 
-.card__imgframe {
+.cardImgframe {
     width: 100%;
     height: auto;
     padding-top: 56.25%;
@@ -251,32 +252,18 @@ main {
     border-radius: 1.5em;
 }
 
-.card__imgframe1 {
-    width: 100%;
-    height: auto;
-    padding-top: 56.25%;
-    background: url(../img/pop.png) no-repeat center;
-    background-size: cover;
-    box-sizing: border-box;
-    border-radius: 1.5em;
-}
 
-.card__textbox {
+.cardTextbox {
     width: 100%;
     height: auto;
     padding: 20px 18px;
     box-sizing: border-box;
 }
 
-    .card__textbox > * + * {
+    .cardTextbox > * + * {
         margin-top: 10px;
     }
 
-.card__titletext {
-    font-size: 20px;
-    font-weight: bold;
-    line-height: 125%;
-}
 
 .card-skin .card__imgframe {
     position: relative;

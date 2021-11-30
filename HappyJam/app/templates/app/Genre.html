@@ -7,6 +7,7 @@
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/Genre.css' %}" />
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
     <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
 </head>
 <body>
@@ -17,31 +18,54 @@
                     <span>Choose<br />Music</span>
                 </div>
             </main>
-
-            <form method="POST" action="{% url 'Instrument' %}">
-                {% csrf_token %}
-                <div class="card card-skin">
-                    <div class="card__imgframe" style="background:url(../img/pop.png) no-repeat center;"></div>
-                    <div class="card__textbox">
-                        <input class="botton" type="submit" value="pop">
+                <form method="POST" action="{% url 'Instrument' %}">
+                    {% csrf_token %}
+                <!-- Swiper -->
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="card card-skin">
+                                <div class="cardImgframe" style="background:url(../../app/img/pop.jpg) no-repeat center;"></div>
+                                <div class="cardTextbox"><input class="botton" type="submit" value="pop"></div>
+                            </div>
+                         </div>
+                        <div class="swiper-slide">
+                             <div class="card card-skin">
+                                <div class="cardImgframe" style="background:url(../img/jazz.jpg) no-repeat center;"></div>
+                                <div class="cardTextbox"><input class="botton" type="submit" value="jazz"></div>
+                             </div>
+                        </div>
+                         <div class="swiper-slide">
+                             <div class="card card-skin">
+                                <div class="cardImgframe" style="background:url(../img/rock.jpg) no-repeat center;"></div>
+                                <div class="cardTextbox"><input class="botton" type="submit" value="rock"></div>
+                             </div>
+                         </div>
                     </div>
                 </div>
-                <div class="card card-skin">
-                    <div class="card__imgframe" style="background:url(../img/pop.png) no-repeat center;"></div>
-                    <div class="card__textbox">
-                        <input class="botton" type="submit" value="jazz">
-                    </div>
-                </div>
-                <div class="card card-skin">
-                    <div class="card__imgframe" style="background:url(../img/pop.png) no-repeat center;"></div>
-                    <div class="card__textbox">
-                        <input class="botton" type="submit" value="rock">
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
+     <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
-  
+    <script>
+      var swiper = new Swiper(".mySwiper", {
+        effect: "coverflow",
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: "auto",
+        coverflowEffect: {
+          rotate: 50,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows: true,
+        },
+        pagination: {
+          el: ".swiper-pagination",
+        },
+      });
+    </script>
 </body>
 </html>
