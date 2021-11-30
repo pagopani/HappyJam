@@ -14,25 +14,26 @@
         <div class="box">
             <main>
                 <div class="title">
-                    <span>Choose<br />Music</span>
+                    <span>Choose<br />Instrument</span>
                 </div>
 
             </main>
 
 
 
-            <form method="POST" action="{% url 'Instrument' %}">
+            <form method="POST" action="cgi-bin/index.py">
                 {% csrf_token %}
                 <main>
 
-                    <input class="button" type="submit" value="POP">
-                    <input class="button" type="submit" value="ROCK">
-                    <input class="button" type="submit" value="JAZZ">
+                    <input class="button" type="submit" value="guiter">
+                    <input class="button" type="submit" value="base">
+                    <input class="button" type="submit" value="piano">
+                    <input class="button" type="submit" value="drum">
                 </main>
             </form>
         </div>
     </div>
 
-  
+
 </body>
 </html>
