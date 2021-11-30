@@ -36,7 +36,7 @@ class Single(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["uid","instrument"],
+                fields=["uid","instrument_id"],
                 name = "single_unique"
             ),
         ]
