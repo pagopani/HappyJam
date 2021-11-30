@@ -8,6 +8,11 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/Instrument.css' %}" />
     <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils_3d/control_utils_3d.js" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="box-center">
@@ -16,10 +21,20 @@
                 <div class="title">
                     <span>Video</span>
                 </div>
+
             </main>
+
+            <div class="container" >
+  	            <!-- カメラ画像の入力（hiddenで非表示） -->
+                <video class="input_video" style="position: absolate; visibility: hidden"></video>
+                <!-- 出力画面用キャンパス -->
+                <p><canvas class="output_canvas" width="1280px" height="720px"></canvas></p>
+                <!--モーション確認用 <div class="landmark-grid-container"></div>  -->
+            </div>
+
             <form method="POST" action="{% url 'Continue' %}">
                 {% csrf_token %}
-                <input class="botton" type="submit" value="撮影">
+                <input class="botton" type="submit" value="撮影" id="record">
 
             </form>
         </div>
@@ -28,3 +43,91 @@
 
 </body>
 </html>
+
+<script type="module">
+const videoElement = document.getElementsByClassName('input_video')[0];
+const canvasElement = document.getElementsByClassName('output_canvas')[0];
+const canvasCtx = canvasElement.getContext('2d');
+//const landmarkContainer = document.getElementsByClassName('landmark-grid-container')[0];
+//const grid = new LandmarkGrid(landmarkContainer);
+
+//動画録画用
+const stream = canvasElement.captureStream();
+const recorder = new MediaRecorder(stream, { mimeType: "video/webm;codecs=vp9" });
+
+//BGM
+var bgm = new Audio();
+
+
+//録画ボタン押下後処理
+document.getElementById("record").onclick=function(){
+	//pose.onResults(onResults);
+	recorder.start();
+
+	bgm.addEventListener("ended", function () {
+		recorder.stop();
+	}, false);
+	
+}
+
+
+function onResults(results) {
+  if (!results.poseLandmarks) {
+    //grid.updateLandmarks([]);
+    return;
+  }
+canvasCtx.save();
+canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+
+//↓↓背景透過↓↓
+canvasCtx.drawImage(results.segmentationMask, 0, 0,
+                      canvasElement.width, canvasElement.height);
+ 
+  // Only overwrite existing pixels.
+  canvasCtx.globalCompositeOperation = 'source-out';
+  canvasCtx.fillStyle = '#00FF00';
+  canvasCtx.fillRect(0, 0, canvasElement.width, canvasElement.height);
+
+  // Only overwrite missing pixels.
+  canvasCtx.globalCompositeOperation = 'destination-atop';
+  canvasCtx.drawImage(
+      results.image, 0, 0, canvasElement.width, canvasElement.height);
+
+  canvasCtx.globalCompositeOperation = 'source-over';
+   drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS,
+                 {color: '#00FF00', lineWidth: 4}); 
+  drawLandmarks(canvasCtx, results.poseLandmarks,
+                {color: '#FF0000', lineWidth: 2});
+
+  canvasCtx.restore();
+
+  //grid.updateLandmarks(results.poseWorldLandmarks);
+}
+
+const pose = new Pose({locateFile: (file) => {
+  return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
+}});
+pose.setOptions({
+  selfieMode: true,
+  modelComplexity: 1,
+  smoothLandmarks: true,
+  enableSegmentation: true,
+  smoothSegmentation: true,
+  minDetectionConfidence: 0.5,
+  minTrackingConfidence: 0.5
+});
+pose.onResults(onResults);
+
+const camera = new Camera(videoElement, {
+  onFrame: async () => {
+    await pose.send({image: videoElement});
+  },
+  width: 1280,
+  height: 720
+});
+camera.start();
+
+
+
+
+</script>
