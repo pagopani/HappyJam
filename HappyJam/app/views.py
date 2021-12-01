@@ -56,6 +56,19 @@ def Video(request):
         }
     )
 
+def CameraPreview(request):
+    """Renders the about page."""
+    assert isinstance(request, HttpRequest)
+    return render(
+        request,
+        'app/CameraPreview.html',
+        {
+            'title':'CameraPreview',
+            'message':'Your application description page.',
+            'year':datetime.now().year,
+        }
+    )
+
 def Continue(request):
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
