@@ -7,6 +7,7 @@
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/Instrument.css' %}" />
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
     <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
 </head>
 <body>
@@ -19,13 +20,60 @@
             </main>
             <form method="POST" action="{% url 'Video' %}">
                 {% csrf_token %}
-
-                    <input class="botton" type="submit" value="guiter">
-                    <input class="botton" type="submit" value="base">
-                    <input class="botton" type="submit" value="drum">
+                <!-- Swiper -->
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="card">
+                                <div class="cardImgframe">
+                                    <img src="{% static 'app/img/pop.jpg' %}"/>
+                                </div>
+                                <div class="cardButtonbox"><input class="button" type="submit" value="guiter"></div>
+                            </div>
+                         </div>
+                        <div class="swiper-slide">
+                             <div class="card">
+                                <div class="cardImgframe">
+                                    <img src="{% static 'app/img/jazz2.jpg' %}"/>
+                                </div>
+                                <div class="cardButtonbox"><input class="button" type="submit" value="base"></div>
+                             </div>
+                        </div>
+                         <div class="swiper-slide">
+                             <div class="card">
+                                <div class="cardImgframe">
+                                    <img src="{% static 'app/img/rock.jpg' %}"/>
+                                </div>
+                                <div class="cardButtonbox"><input class="button" type="submit" value="drum"></div>
+                             </div>
+                         </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
             </form>
         </div>
     </div>
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <script>
+      var swiper = new Swiper(".mySwiper", {
+        effect: "coverflow",
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: "auto",
+        coverflowEffect: {
+          rotate: 50,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows: true,
+        },
+        pagination: {
+          el: ".swiper-pagination",
+        },
+      });
+    </script>
 
 
 </body>
