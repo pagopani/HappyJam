@@ -6,8 +6,10 @@
     <title>{{ title }} - HappyJam</title>
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/Instrument.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/video.css' %}" />
     <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
+
+    <!--mediapipe導入-->
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils_3d/control_utils_3d.js" crossorigin="anonymous"></script> -->
@@ -21,20 +23,21 @@
                 <div class="title">
                     <span>Video</span>
                 </div>
-
             </main>
 
             <div class="container" >
-  	            <!-- カメラ画像の入力（hiddenで非表示） -->
-                <video class="input_video" style="position: absolate; visibility: hidden"></video>
+                <div class="camera">
+  	                <!-- カメラ画像の入力（hiddenで非表示） -->
+                    <video class="input_video" style="position: absolate; visibility: hidden"></video>
+                </div>
                 <!-- 出力画面用キャンパス -->
-                <p><canvas class="output_canvas" width="1280px" height="720px"></canvas></p>
+                <canvas class="output_canvas" width="1280px" height="720px"></canvas>
                 <!--モーション確認用 <div class="landmark-grid-container"></div>  -->
             </div>
 
             <form method="POST" action="{% url 'Continue' %}">
                 {% csrf_token %}
-                <input class="botton" type="submit" value="終了" id="record">
+                <input class="botton" type="submit" value="撮影" id="record">
 
             </form>
         </div>
@@ -45,89 +48,97 @@
 </html>
 
 <script type="module">
-const videoElement = document.getElementsByClassName('input_video')[0];
-const canvasElement = document.getElementsByClassName('output_canvas')[0];
-const canvasCtx = canvasElement.getContext('2d');
-//const landmarkContainer = document.getElementsByClassName('landmark-grid-container')[0];
-//const grid = new LandmarkGrid(landmarkContainer);
+    const videoElement = document.getElementsByClassName('input_video')[0];
+    const canvasElement = document.getElementsByClassName('output_canvas')[0];
+    const canvasCtx = canvasElement.getContext('2d');
+    //const landmarkContainer = document.getElementsByClassName('landmark-grid-container')[0];
+    //const grid = new LandmarkGrid(landmarkContainer);
 
-//動画録画用
-const stream = canvasElement.captureStream();
-const recorder = new MediaRecorder(stream, { mimeType: "video/webm;codecs=vp9" });
+    //動画録画用
+    const stream = canvasElement.captureStream();
+    const recorder = new MediaRecorder(stream, { mimeType: "video/webm;codecs=vp9" });
 
-//BGM
-var bgm = new Audio();
+    //BGM
+    var bgm = new Audio();
 
+    //楽器データ
+    var instrument = new Audio();
 
-//録画ボタン押下後処理
-document.getElementById("record").onclick=function(){
-	//pose.onResults(onResults);
-	recorder.start();
+    //録画ボタン押下後処理
+    document.getElementById("record").onclick=function(){
+	    //pose.onResults(onResults);
 
-	bgm.addEventListener("ended", function () {
-		recorder.stop();
-	}, false);
+        //録画開始
+        recorder.start();
+
+        bgm.play();
+
+	    bgm.addEventListener("ended", function () {
+            recorder.stop();
+            
+	    }, false);
 	
-}
+    }
 
 
-function onResults(results) {
-  if (!results.poseLandmarks) {
-    //grid.updateLandmarks([]);
-    return;
-  }
-canvasCtx.save();
-canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+    function onResults(results) {
+        if (!results.poseLandmarks) {
+            //grid.updateLandmarks([]);
+            return;
+        }
+        canvasCtx.save();
+        canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
 
-//↓↓背景透過↓↓
-canvasCtx.drawImage(results.segmentationMask, 0, 0,
-                      canvasElement.width, canvasElement.height);
+        //↓↓背景透過↓↓
+        canvasCtx.drawImage(results.segmentationMask, 0, 0, canvasElement.width, canvasElement.height);
  
-  // Only overwrite existing pixels.
-  canvasCtx.globalCompositeOperation = 'source-out';
-  canvasCtx.fillStyle = '#00FF00';
-  canvasCtx.fillRect(0, 0, canvasElement.width, canvasElement.height);
-
-  // Only overwrite missing pixels.
-  canvasCtx.globalCompositeOperation = 'destination-atop';
-  canvasCtx.drawImage(
-      results.image, 0, 0, canvasElement.width, canvasElement.height);
-
-  canvasCtx.globalCompositeOperation = 'source-over';
-   drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS,
-                 {color: '#00FF00', lineWidth: 4}); 
-  drawLandmarks(canvasCtx, results.poseLandmarks,
-                {color: '#FF0000', lineWidth: 2});
-
-  canvasCtx.restore();
-
-  //grid.updateLandmarks(results.poseWorldLandmarks);
-}
-
-const pose = new Pose({locateFile: (file) => {
-  return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
-}});
-pose.setOptions({
-  selfieMode: true,
-  modelComplexity: 1,
-  smoothLandmarks: true,
-  enableSegmentation: true,
-  smoothSegmentation: true,
-  minDetectionConfidence: 0.5,
-  minTrackingConfidence: 0.5
-});
-pose.onResults(onResults);
-
-const camera = new Camera(videoElement, {
-  onFrame: async () => {
-    await pose.send({image: videoElement});
-  },
-  width: 1280,
-  height: 720
-});
-camera.start();
+        // Only overwrite existing pixels.
+        canvasCtx.globalCompositeOperation = 'source-out';
+        canvasCtx.fillStyle = '#00FF00';
+        canvasCtx.fillRect(0, 0, canvasElement.width, canvasElement.height);
 
 
+        //↓↓ポーン情報表示（たぶん）↓↓
+        // Only overwrite missing pixels.
+        canvasCtx.globalCompositeOperation = 'destination-atop';
+        canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
 
+        canvasCtx.globalCompositeOperation = 'source-over';
+        drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, { color: '#00FF00', lineWidth: 4 });
+        drawLandmarks(canvasCtx, results.poseLandmarks,{color: '#FF0000', lineWidth: 2});
 
+        canvasCtx.restore();
+
+        //デバッグ用
+        //grid.updateLandmarks(results.poseWorldLandmarks);
+    }
+
+    //mediapipe_poseライブラリの読み込み
+    const pose = new Pose({locateFile: (file) => {
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
+    }});
+
+    //mediapipeのオプション設定
+    pose.setOptions({
+        selfieMode: true,
+        modelComplexity: 0,
+        smoothLandmarks: true,
+        enableSegmentation: true,
+        smoothSegmentation: true,
+        minDetectionConfidence: 0.5,
+        minTrackingConfidence: 0.5
+    });
+    pose.onResults(onResults);
+
+    //Webカメラデータをvideoに変換
+    const camera = new Camera(videoElement, {
+        onFrame: async () => {
+            await pose.send({image: videoElement});
+        },
+        width: 1280,
+        height: 720
+    });
+
+    //カメラ起動
+    camera.start();
 </script>
