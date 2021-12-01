@@ -6,7 +6,7 @@
     <title>{{ title }} - HappyJam</title>
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/Instrument.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/Preview.css' %}" />
     <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
 </head>
 <body>
@@ -20,7 +20,7 @@
             <form method="POST" action="{% url 'Video' %}">
                 {% csrf_token %}
 
-                <input class="botton" type="submit" value="開始">
+                <input class="button" type="submit" value="開始">
             </form>
         </div>
     </div>
