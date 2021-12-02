@@ -259,8 +259,8 @@ main {
     .card .cardImgframe img {
         height: 300px;
         width: 500px;
-        border-radius: 60% 60% 60% 60%/60% 60% 60% 60%;
         filter: drop-shadow(15px 15px 0 #b200ff);
+        object-fit: scale-down;
     }
 
 
