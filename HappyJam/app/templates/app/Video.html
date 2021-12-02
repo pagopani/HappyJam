@@ -65,14 +65,20 @@
     const audioCtx = new AudioContext();
 
     //bgm
-    const bgmTrack = document.querySelector("audio");
+    //const bgmTrack = document.querySelector("audio");
+    var bgm = new Audio();
 
     //楽器データ
     var instrument = new Audio();
 
     //動画録画用
     const canvasStream = canvasElement.captureStream();
-    const recorder = new MediaRecorder(stream, { mimeType: "video/webm;codecs=vp9" });
+    //const audioStream = destination.stream;
+
+    //[canvasStream, audioStream].forEach((stream) => {
+    //    stream.getTracks().forEach((track) => mediaStream.addTrack(track));
+    //});
+    const recorder = new MediaRecorder(canvasStream, { mimeType: "video/webm;codecs=vp9" });
     
     //録画ボタン押下後処理
     document.getElementById("record").onclick=function(){
@@ -81,6 +87,8 @@
         //録画開始
         recorder.start();
 
+
+        //音楽再生
         bgm.play();
         
 	    bgm.addEventListener("ended", function () {
@@ -108,12 +116,12 @@
 
         //↓↓ポーン情報表示（たぶん）↓↓
         // Only overwrite missing pixels.
-        canvasCtx.globalCompositeOperation = 'destination-atop';
-        canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+        //canvasCtx.globalCompositeOperation = 'destination-atop';
+        //canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
 
-        canvasCtx.globalCompositeOperation = 'source-over';
-        drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, { color: '#00FF00', lineWidth: 4 });
-        drawLandmarks(canvasCtx, results.poseLandmarks,{color: '#FF0000', lineWidth: 2});
+        //canvasCtx.globalCompositeOperation = 'source-over';
+        //drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, { color: '#00FF00', lineWidth: 4 });
+        //drawLandmarks(canvasCtx, results.poseLandmarks,{color: '#FF0000', lineWidth: 2});
 
         canvasCtx.restore();
 
