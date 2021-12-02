@@ -15,6 +15,12 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils_3d/control_utils_3d.js" crossorigin="anonymous"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
+
+    <!--音楽データ読み込み-->
+    <!--<audio preload="auto">
+        <source src="bgm.mp3">
+        <source src="instrument.mp3">
+    </audio>-->
 </head>
 <body>
     <div class="box-center">
@@ -54,16 +60,20 @@
     //const landmarkContainer = document.getElementsByClassName('landmark-grid-container')[0];
     //const grid = new LandmarkGrid(landmarkContainer);
 
-    //動画録画用
-    const stream = canvasElement.captureStream();
-    const recorder = new MediaRecorder(stream, { mimeType: "video/webm;codecs=vp9" });
+    //Web Audio APIのコンテキスト生成
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioCtx = new AudioContext();
 
-    //BGM
-    var bgm = new Audio();
+    //bgm
+    const bgmTrack = document.querySelector("audio");
 
     //楽器データ
     var instrument = new Audio();
 
+    //動画録画用
+    const canvasStream = canvasElement.captureStream();
+    const recorder = new MediaRecorder(stream, { mimeType: "video/webm;codecs=vp9" });
+    
     //録画ボタン押下後処理
     document.getElementById("record").onclick=function(){
 	    //pose.onResults(onResults);
@@ -72,7 +82,7 @@
         recorder.start();
 
         bgm.play();
-
+        
 	    bgm.addEventListener("ended", function () {
             recorder.stop();
             
@@ -91,12 +101,10 @@
 
         //↓↓背景透過↓↓
         canvasCtx.drawImage(results.segmentationMask, 0, 0, canvasElement.width, canvasElement.height);
- 
         // Only overwrite existing pixels.
         canvasCtx.globalCompositeOperation = 'source-out';
         canvasCtx.fillStyle = '#00FF00';
         canvasCtx.fillRect(0, 0, canvasElement.width, canvasElement.height);
-
 
         //↓↓ポーン情報表示（たぶん）↓↓
         // Only overwrite missing pixels.
