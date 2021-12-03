@@ -20,7 +20,7 @@
                     <span>Preview</span>
                 </div>
             </main>
-            <video width="900" height="500" src="" controls></video>
+            <video width="900" height="500" src="{% static 'app/movie/demo.mp4' %}" controls></video>
 
             <form method="POST" action="{% url 'home' %}">
                 {% csrf_token %}
