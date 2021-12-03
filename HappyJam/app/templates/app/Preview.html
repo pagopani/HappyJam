@@ -6,10 +6,13 @@
     <title>{{ title }} - HappyJam</title>
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/Instrument.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/Preview.css' %}" />
     <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
 </head>
 <body>
+        <div class="bg"></div>
+<div class="bg bg2"></div>
+<div class="bg bg3"></div>
     <div class="box-center">
         <div class="box">
             <main>
@@ -21,12 +24,12 @@
 
             <form method="POST" action="{% url 'home' %}">
                 {% csrf_token %}
-                <input class="botton" type="submit" value="終了">
+                <input class="button" type="submit" value="終了">
             </form>
 
         </div>
     </div>
-
+    
 
 </body>
 </html>

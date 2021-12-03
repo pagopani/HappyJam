@@ -23,6 +23,9 @@
     </audio>-->
 </head>
 <body>
+        <div class="bg"></div>
+<div class="bg bg2"></div>
+<div class="bg bg3"></div>
     <div class="box-center">
         <div class="box">
             <main>
@@ -43,7 +46,7 @@
 
             <form method="POST" action="{% url 'Continue' %}">
                 {% csrf_token %}
-                <input class="botton" type="submit" value="撮影" id="record">
+                <input class="button" type="submit" value="撮影" id="record">
 
             </form>
         </div>

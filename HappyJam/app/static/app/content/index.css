@@ -10,6 +10,7 @@ body {
     background: radial-gradient(circle, #0077ea, #1f4f96, #1b2949, #000 );
     perspective: 500px;
 }
+
 .title {
     cursor:auto;
     color: #fff;
@@ -198,3 +199,37 @@ input[type="checkbox"].input-validation-error {
 .validation-summary-valid {
     display: none;
 }
+
+/*-------------------------bg-----------------------------*/
+
+.bg {
+    animation: slide 3s ease-in-out infinite alternate;
+    background-image: linear-gradient(-60deg, rgba(191, 123, 255, 0.781) 50%, #0094ff 50%);
+    bottom: 0;
+    left: -50%;
+    opacity: .5;
+    position: fixed;
+    right: -50%;
+    top: 0;
+    z-index: -1;
+}
+
+.bg2 {
+    animation-direction: alternate-reverse;
+    animation-duration: 4s;
+}
+
+.bg3 {
+    animation-duration: 5s;
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(-25%);
+    }
+
+    100% {
+        transform: translateX(25%);
+    }
+}
+/*------------------------bg-end-----------------------------*/

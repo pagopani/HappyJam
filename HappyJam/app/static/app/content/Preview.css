@@ -8,24 +8,19 @@ body {
 }
 
 .box {
-    --glow-color: rgb(217, 176, 255);
-    --glow-spread-color: rgba(191, 123, 255, 0.781);
-    --enhanced-glow-color: rgb(231, 206, 255);
-    --btn-color: rgb(100, 61, 136);
-    outline: none;
-    border: .25em solid var(--glow-color);
-    padding: 2em 5em;
-    color: var(--glow-color);
-    font-size: 20px;
     font-weight: bold;
-    background-color: var(--btn-color);
-    border-radius: 3.5em;
-    outline: none;
-    box-shadow: 0 0 1em .25em var(--glow-color), 0 0 4em 1em var(--glow-spread-color), inset 0 0 .75em .25em var(--glow-color);
-    text-shadow: 0 0 .5em var(--glow-color);
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: rgba(142, 142, 142, 0.19) 0px 6px 15px 0px;
+    -webkit-box-shadow: rgba(142, 142, 142, 0.19) 0px 6px 15px 0px;
+    border-radius: 25px;
+    -webkit-border-radius: 25px;
+    color: rgba(255, 255, 255, 0.6);
     position: relative;
     transition: all 0.3s;
-    border-style: none;
+    padding: 1.5em 4em;
 }
 
 .box-center {
@@ -261,6 +256,7 @@ main {
         width: 500px;
         border-radius: 60% 60% 60% 60%/60% 60% 60% 60%;
         filter: drop-shadow(15px 15px 0 #b200ff);
+        object-fit: cover;
     }
 
 
@@ -268,4 +264,82 @@ main {
 
 
 /*------------------------card-end-----------------------------*/
+/*------------------------swiper-end-----------------------------*/
 
+.swiper {
+    width: 600px;
+    padding-top: 200px;
+}
+
+.swiper-slide {
+    width: 600px;
+    height: 300px;
+}
+
+/*------------------------swiper-end-----------------------------*/
+
+.btn {
+    display: flex;
+    height: 3em;
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    background-color: #eeeeee4b;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    border: none;
+    background: #fff;
+}
+
+    .btn > svg {
+        margin-right: 5px;
+        margin-left: 5px;
+        font-size: 20px;
+        transition: all 0.4s ease-in;
+    }
+
+    .btn:hover > svg {
+        font-size: 1.2em;
+        transform: translateX(-5px);
+    }
+
+    .btn:hover {
+        box-shadow: 9px 9px 33px #d1d1d1, -9px -9px 33px #ffffff;
+        transform: translateY(-2px);
+    }
+
+/*-------------------------bg-----------------------------*/
+
+.bg {
+    animation: slide 3s ease-in-out infinite alternate;
+    background-image: linear-gradient(-60deg, rgba(191, 123, 255, 0.781) 50%, #0094ff 50%);
+    bottom: 0;
+    left: -50%;
+    opacity: .5;
+    position: fixed;
+    right: -50%;
+    top: 0;
+    z-index: -1;
+}
+
+.bg2 {
+    animation-direction: alternate-reverse;
+    animation-duration: 4s;
+}
+
+.bg3 {
+    animation-duration: 5s;
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(-25%);
+    }
+
+    100% {
+        transform: translateX(25%);
+    }
+}
+/*------------------------bg-end-----------------------------*/
