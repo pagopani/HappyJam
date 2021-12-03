@@ -114,14 +114,15 @@
         canvasCtx.fillStyle = '#00FF00';
         canvasCtx.fillRect(0, 0, canvasElement.width, canvasElement.height);
 
-        //↓↓ポーン情報表示（たぶん）↓↓
+        //カメラ画像表示
         // Only overwrite missing pixels.
-        //canvasCtx.globalCompositeOperation = 'destination-atop';
-        //canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+        canvasCtx.globalCompositeOperation = 'destination-atop';
+        canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
 
-        //canvasCtx.globalCompositeOperation = 'source-over';
-        //drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, { color: '#00FF00', lineWidth: 4 });
-        //drawLandmarks(canvasCtx, results.poseLandmarks,{color: '#FF0000', lineWidth: 2});
+        //↓↓ポーン情報表示↓↓
+        canvasCtx.globalCompositeOperation = 'source-over';
+        drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, { color: '#00FF00', lineWidth: 4 });
+        drawLandmarks(canvasCtx, results.poseLandmarks,{color: '#FF0000', lineWidth: 2});
 
         canvasCtx.restore();
 
