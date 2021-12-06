@@ -52,7 +52,6 @@
         </div>
     </div>
 
-
 </body>
 </html>
 
@@ -66,6 +65,18 @@
     //Web Audio APIのコンテキスト生成
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     const audioCtx = new AudioContext();
+
+    //AudioWorklet導入
+    class MyWorkletNode extends AudioWorkletNode {
+        constructor(audioCtx) {
+            super(audioCtx, 'my-worklet-processor');
+        }
+    }
+
+    audioCtx.audioWorklet.addModule('processors.js').then(() => {
+        let node = new MyWorkletNode(audioCtx);
+    });
+
 
     //bgm
     var bgmTrack = document.querySelector("audio");
@@ -90,7 +101,6 @@
         //録画開始
         recorder.start();
 
-
         //音楽再生
         bgm.play();
         
@@ -98,9 +108,7 @@
             recorder.stop();
             
 	    }, false);
-	
     }
-
 
     function onResults(results) {
         if (!results.poseLandmarks) {
