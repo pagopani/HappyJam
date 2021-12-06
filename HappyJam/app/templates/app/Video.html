@@ -16,6 +16,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
 
+    <!--howler.js導入-->
+    <script src="https://cdn.jsdelivr.net/npm/howler@2.2.0/dist/howler.min.js"></script>
+
     <!--音楽データ読み込み-->
     <audio preload="auto">
         <source src="{% static 'app/music/rock/rock.mp3' %}">
@@ -69,7 +72,6 @@
         </div>
     </div>
 
-
 </body>
 </html>
 
@@ -83,6 +85,18 @@
     //Web Audio APIのコンテキスト生成
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     const audioCtx = new AudioContext();
+
+    //AudioWorklet導入
+    class MyWorkletNode extends AudioWorkletNode {
+        constructor(audioCtx) {
+            super(audioCtx, 'my-worklet-processor');
+        }
+    }
+
+    audioCtx.audioWorklet.addModule('processors.js').then(() => {
+        let node = new MyWorkletNode(audioCtx);
+    });
+
 
     //bgm
     var bgmTrack = document.querySelector("audio");
@@ -107,7 +121,6 @@
         //録画開始
         recorder.start();
 
-
         //音楽再生
         bgm.play();
         
@@ -115,9 +128,7 @@
             recorder.stop();
             
 	    }, false);
-	
     }
-
 
     function onResults(results) {
         if (!results.poseLandmarks) {
