@@ -78,16 +78,20 @@
                     <div class="swiper-pagination"></div>
                 </div>
             </form>
+            <div class="sub">
+                <form method="POST" action="{% url 'home' %}">
+                {% csrf_token %}
+                <input class="btn" type="submit" value="home">
+            </form>
+             <form method="POST" action="{% url 'Genre' %}">
+                {% csrf_token %}
+                <input class="btn" type="submit" value="back">
+            </form>
+            </div>
+             
         </div>
     </div>
-    <form method="POST" action="{% url 'home' %}">
-                {% csrf_token %}
-                <input class="button" type="submit" value="home">
-            </form>
-            <form method="POST" action="{% url 'Genre' %}">
-                {% csrf_token %}
-                <input class="button" type="submit" value="back">
-            </form>
+  
     <!-- Swiper JS -->
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="{% static 'app/scripts/jquery-1.10.2.min.js' %}"></script>

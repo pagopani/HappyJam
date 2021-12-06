@@ -7,6 +7,9 @@ html {
 body {
     margin: 0;
 }
+
+
+/*------------------------loading-----------------------------*/
 #loading-wrapper {
     position: fixed;
     top: 0;
@@ -314,6 +317,9 @@ body {
         width: 100px;
     }
 }
+/*------------------------loading-end-----------------------------*/
+
+/*------------------------box-----------------------------*/
 
 .box {
     font-weight: bold;
@@ -338,6 +344,7 @@ body {
     height: 100vh;
     min-height: 100vh;
 }
+/*------------------------box-end-----------------------------*/
 
 .title {
     display: flex;
@@ -348,6 +355,7 @@ body {
     font-family: Helvetica;
     text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2), 0 20px 20px rgba(0,0,0,.15);
 }
+
 
 
 /*------------------------main------------------------------*/
@@ -562,15 +570,11 @@ main {
     .card .cardImgframe img {
         height: 300px;
         width: 500px;
-        filter: drop-shadow(15px 15px 0 #b200ff);
+        filter: drop-shadow(15px 15px 0 #4486ed);
         object-fit: scale-down;
     }
-
-
-
-
-
 /*------------------------card-end-----------------------------*/
+
 /*------------------------swiper-end-----------------------------*/
 
 .swiper {
@@ -584,6 +588,52 @@ main {
 }
 
 /*------------------------swiper-end-----------------------------*/
+
+.sub {
+    display: flex;
+    text-align: center;
+}
+
+    .sub input {
+        margin: 0px 10px;
+    }
+
+/*------------------------btn-----------------------------*/
+
+
+.btn {
+    display: flex;
+    height: 3em;
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    background-color: #eeeeee4b;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    border: none;
+    background: #fff;
+}
+
+    .btn > svg {
+        margin-right: 5px;
+        margin-left: 5px;
+        font-size: 20px;
+        transition: all 0.4s ease-in;
+    }
+
+    .btn:hover > svg {
+        font-size: 1.2em;
+        transform: translateX(-5px);
+    }
+
+    .btn:hover {
+        box-shadow: 9px 9px 33px #d1d1d1, -9px -9px 33px #ffffff;
+        transform: translateY(-2px);
+    }
+/*------------------------btn-end-----------------------------*/
+
 
 /*-------------------------bg-----------------------------*/
 
