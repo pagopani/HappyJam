@@ -17,10 +17,10 @@
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
 
     <!--音楽データ読み込み-->
-    <!--<audio preload="auto">
-        <source src="bgm.mp3">
-        <source src="instrument.mp3">
-    </audio>-->
+    <audio preload="auto">
+        <source src="{% static 'app/music/rock/rock.mp3' %}">
+        <!--<source src="instrument.mp3">-->
+    </audio>
 </head>
 <body>
     <div id="loading-wrapper">
@@ -79,8 +79,8 @@
     const audioCtx = new AudioContext();
 
     //bgm
-    //const bgmTrack = document.querySelector("audio");
-    var bgm = new Audio();
+    var bgmTrack = document.querySelector("audio");
+    var bgm = audioCtx.createMediaElementSource(bgmTrack);
 
     //楽器データ
     var instrument = new Audio();
