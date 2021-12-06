@@ -10,6 +10,23 @@
     <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
 </head>
 <body>
+    <!-- ローディング画面 -->
+  <div id="loading-wrapper">
+      <div class="cube-wrapper">
+  <div class="cube-folding">
+    <span class="leaf1"></span>
+    <span class="leaf2"></span>
+    <span class="leaf3"></span>
+    <span class="leaf4"></span>
+  </div>
+  <span class="loading" data-name="Loading">Loading</span>
+</div>
+  </div>
+     <div class="bg"></div>
+<div class="bg bg2"></div>
+<div class="bg bg3"></div>
+    <div class="box-center">
+        <div class="box">
             <form method="POST" action="{% url 'Genre' %}">
             {% csrf_token %}
             <main>
@@ -18,7 +35,29 @@
             <button type="submit" ><span>Single</span></button>
             <button >Multi</button>
             </main>
-            </form>>
+            </form>
+            </div>
+    </div>
+    <script>
+    const loader = document.getElementById('loading-wrapper');
+        window.addEventListener('load', () => {
+            const ms = 400;
+            loader.style.transition = 'opacity ' + ms + 'ms';
+  
+            const loaderOpacity = function(){
+            loader.style.opacity = 0;
+            }
+        const loaderDisplay = function(){
+        loader.style.display = "none";
+        }
+        // setTimeout(loaderOpacity, 1);
+        // setTimeout(loaderDisplay, ms);
+        // デモ用
+        setTimeout(loaderOpacity, 2000);
+        setTimeout(loaderDisplay, 2000 + ms);
+        });
+        
+    </script>
 </body>
 </html>
 
