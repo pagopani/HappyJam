@@ -28,26 +28,27 @@
         <div class="box">
             <main>
                 <div class="title">
-                    <span>Continue</span>
+                    <span>Continue?</span>
                 </div>
             </main>
             <div class="sub">
+
+                <form method="POST" action="{% url 'home' %}">
+                {% csrf_token %}
+                <input class="button" type="submit" value="home">
+            </form>
+
                 <form method="POST" action="{% url 'Instrument' %}">
                 {% csrf_token %}
-                <input class="button" type="submit" value="別の楽器を選ぶ">
+                <input class="btn" type="submit" value="Yes">
             </form>
             <form method="POST" action="{% url 'Preview' %}">
                 {% csrf_token %}
-                <input class="button" type="submit" value="演奏終了">
+                <input class="btn" type="submit" value="No">
             </form>
-            </div>
             
 
-            <div class="sub">
-                <form method="POST" action="{% url 'home' %}">
-                {% csrf_token %}
-                <input class="btn" type="submit" value="home">
-            </form>
+            
             </div>
 
         </div>
