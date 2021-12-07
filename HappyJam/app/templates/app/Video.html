@@ -19,11 +19,11 @@
     <!--howler.js導入-->
     <script src="https://cdn.jsdelivr.net/npm/howler@2.2.0/dist/howler.min.js"></script>
 
-    <!--音楽データ読み込み-->
+    <!--音楽データ読み込み
     <audio preload="auto">
         <source src="{% static 'app/music/rock/rock.mp3' %}">
-        <!--<source src="instrument.mp3">-->
-    </audio>
+        <source src="instrument.mp3">
+    </audio>-->
 </head>
 <body>
     <div id="loading-wrapper">
@@ -76,6 +76,14 @@
     //const landmarkContainer = document.getElementsByClassName('landmark-grid-container')[0];
     //const grid = new LandmarkGrid(landmarkContainer);
 
+
+    //howler.js導入
+    
+    var sound = new Howl({
+      src: ['{% static 'app/music/rock/rock.mp3' %}', '{% static 'app/music/rock/rock.mp3' %}']
+    });
+
+    /* Web Audio API
     //Web Audio APIのコンテキスト生成
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     const audioCtx = new AudioContext();
@@ -98,6 +106,7 @@
 
     //楽器データ
     var instrument = new Audio();
+    */
 
     //動画録画用
     const canvasStream = canvasElement.captureStream();
@@ -116,12 +125,12 @@
         recorder.start();
 
         //音楽再生
-        bgm.play();
+        //bgm.play();
         
-	    bgm.addEventListener("ended", function () {
+	    //bgm.addEventListener("ended", function () {
             recorder.stop();
             
-	    }, false);
+	    //}, false);
     }
 
     function onResults(results) {
@@ -184,6 +193,8 @@
     //カメラ起動
     camera.start();
 </script>
+
+<!--ローディング-->
 <script>
     const loader = document.getElementById('loading-wrapper');
         window.addEventListener('load', () => {
