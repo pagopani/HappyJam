@@ -19,11 +19,11 @@
     <!--howler.js導入-->
     <script src="https://cdn.jsdelivr.net/npm/howler@2.2.0/dist/howler.min.js"></script>
 
-    <!--音楽データ読み込み-->
+    <!--音楽データ読み込み
     <audio preload="auto">
         <source src="{% static 'app/music/rock/rock.mp3' %}">
-        <!--<source src="instrument.mp3">-->
-    </audio>
+        <source src="instrument.mp3">
+    </audio>-->
 </head>
 <body>
     <div id="loading-wrapper">
@@ -83,6 +83,23 @@
     //const landmarkContainer = document.getElementsByClassName('landmark-grid-container')[0];
     //const grid = new LandmarkGrid(landmarkContainer);
 
+    //howler.js導入
+    var sound = new Howl({
+        src: ['{% static 'app/music/rock/rock.mp3' %}', '{% static 'app/music/rock/rock.mp3' %}'],
+
+        //オプション
+        preload: true,   // 事前ロード
+        volume: 1.0,     // 音量(0.0〜1.0の範囲で指定)
+        loop: false,     // ループ再生するか
+        autoplay: false, // 自動再生するか
+
+        // 読み込み完了時に実行する処理
+        onload: ()=>{
+            record.removeAttribute("disabled");  // ボタンを使用可能にする
+        }
+    });
+
+    /* Web Audio API
     //Web Audio APIのコンテキスト生成
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     const audioCtx = new AudioContext();
@@ -105,6 +122,7 @@
 
     //楽器データ
     var instrument = new Audio();
+    */
 
     //動画録画用
     const canvasStream = canvasElement.captureStream();
@@ -119,16 +137,20 @@
     document.getElementById("record").onclick=function(){
 	    //pose.onResults(onResults);
 
+        //音楽再生開始
+        var id1 = sound.play();
+        var id2 = sound.play();
+
         //録画開始
         recorder.start();
 
         //音楽再生
-        bgm.play();
+        //bgm.play();
         
-	    bgm.addEventListener("ended", function () {
+	    //bgm.addEventListener("ended", function () {
             recorder.stop();
             
-	    }, false);
+	    //}, false);
     }
 
     function onResults(results) {
@@ -191,6 +213,8 @@
     //カメラ起動
     camera.start();
 </script>
+
+<!--ローディング-->
 <script>
     const loader = document.getElementById('loading-wrapper');
         window.addEventListener('load', () => {
