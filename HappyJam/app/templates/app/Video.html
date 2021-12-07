@@ -82,11 +82,20 @@
     //const landmarkContainer = document.getElementsByClassName('landmark-grid-container')[0];
     //const grid = new LandmarkGrid(landmarkContainer);
 
-
     //howler.js導入
-    
     var sound = new Howl({
-      src: ['{% static 'app/music/rock/rock.mp3' %}', '{% static 'app/music/rock/rock.mp3' %}']
+        src: ['{% static 'app/music/rock/rock.mp3' %}', '{% static 'app/music/rock/rock.mp3' %}'],
+
+        //オプション
+        preload: true,   // 事前ロード
+        volume: 1.0,     // 音量(0.0〜1.0の範囲で指定)
+        loop: false,     // ループ再生するか
+        autoplay: false, // 自動再生するか
+
+        // 読み込み完了時に実行する処理
+        onload: ()=>{
+            record.removeAttribute("disabled");  // ボタンを使用可能にする
+        }
     });
 
     /* Web Audio API
@@ -126,6 +135,10 @@
     //録画ボタン押下後処理
     document.getElementById("record").onclick=function(){
 	    //pose.onResults(onResults);
+
+        //音楽再生開始
+        var id1 = sound.play();
+        var id2 = sound.play();
 
         //録画開始
         recorder.start();
