@@ -31,7 +31,8 @@
                     <span>Continue</span>
                 </div>
             </main>
-            <form method="POST" action="{% url 'Instrument' %}">
+            <div class="sub">
+                <form method="POST" action="{% url 'Instrument' %}">
                 {% csrf_token %}
                 <input class="button" type="submit" value="別の楽器を選ぶ">
             </form>
@@ -39,6 +40,15 @@
                 {% csrf_token %}
                 <input class="button" type="submit" value="演奏終了">
             </form>
+            </div>
+            
+
+            <div class="sub">
+                <form method="POST" action="{% url 'home' %}">
+                {% csrf_token %}
+                <input class="btn" type="submit" value="home">
+            </form>
+            </div>
 
         </div>
     </div>

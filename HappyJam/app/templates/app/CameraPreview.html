@@ -36,6 +36,16 @@
 
                 <input class="button" type="submit" value="開始">
             </form>
+            <div class="sub">
+                <form method="POST" action="{% url 'home' %}">
+                {% csrf_token %}
+                <input class="btn" type="submit" value="home">
+                </form>
+                <form method="POST" action="{% url 'Instrument' %}">
+                {% csrf_token %}
+                <input class="btn" type="submit" value="back">
+                </form>
+            </div>
         </div>
     </div>
     <script>
