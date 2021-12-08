@@ -12,7 +12,6 @@
     <!--mediapipe導入-->
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils_3d/control_utils_3d.js" crossorigin="anonymous"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
 
@@ -50,24 +49,21 @@
                 </div>
                 <!-- 出力画面用キャンパス -->
                 <canvas class="output_canvas" width="1280px" height="720px"></canvas>
-                <!--モーション確認用 <div class="landmark-grid-container"></div>  -->
             </div>
 
 
             <div class="sub">
-            <form method="POST" action="{% url 'home' %}">
-                {% csrf_token %}
-                <input class="button" type="submit" value="home">
-            </form>
-            <form method="POST" action="{% url 'Continue' %}">
-                {% csrf_token %}
-                <input class="btn" type="submit" value="GO!" id="record">
-
-            </form>   
+                <form method="POST" action="{% url 'home' %}">
+                    {% csrf_token %}
+                    <input class="button" type="submit" value="home">
+                </form>
+                <form method="POST" action="{% url 'Continue' %}">
+                    {% csrf_token %}
+                    <input class="btn" type="submit" value="GO!" id="record">
+                </form>   
             </div>
         </div>
     </div>
-
 </body>
 </html>
 
@@ -75,8 +71,6 @@
     const videoElement = document.getElementsByClassName('input_video')[0];
     const canvasElement = document.getElementsByClassName('output_canvas')[0];
     const canvasCtx = canvasElement.getContext('2d');
-    //const landmarkContainer = document.getElementsByClassName('landmark-grid-container')[0];
-    //const grid = new LandmarkGrid(landmarkContainer);
 
     //howler.js導入
     var sound = new Howl({
@@ -98,44 +92,32 @@
         }
     });
 
-    /* Web Audio API
-    //Web Audio APIのコンテキスト生成
-    window.AudioContext = window.AudioContext || window.webkitAudioContext;
-    const audioCtx = new AudioContext();
-
-    //AudioWorklet導入
-    class MyWorkletNode extends AudioWorkletNode {
-        constructor(audioCtx) {
-            super(audioCtx, 'my-worklet-processor');
-        }
-    }
-
-    audioCtx.audioWorklet.addModule('processors.js').then(() => {
-        let node = new MyWorkletNode(audioCtx);
-    });
-
-    //bgm
-    var bgmTrack = document.querySelector("audio");
-    var bgm = audioCtx.createMediaElementSource(bgmTrack);
-
-    //楽器データ
-    var instrument = new Audio();
-    */
-
     //動画録画用
     const canvasStream = canvasElement.captureStream();
-    //const audioStream = destination.stream;
 
-    //[canvasStream, audioStream].forEach((stream) => {
-    //    stream.getTracks().forEach((track) => mediaStream.addTrack(track));
-    //});
+    //録音用
+    const audioContext = Howler.ctx;
+    const audioNode = Howler.masterGain;
+    const destination = audioContext.createMediaStreamDestination();
+    audioNode.connect(destination);
+    //コンテキストとノードのずれ防止らしいけど↓二行なくてもいける？
+    const oscillator = audioContext.createOscillator();
+    oscillator.connect(destination);
+    const audioStream = destination.stream;
+
+    //動画と音声のストリーム合成
+    const mediaStream = new MediaStream();
+
+    [canvasStream, audioStream].forEach((stream) => {
+        stream.getTracks().forEach((track) => mediaStream.addTrack(track));
+    });
+
+    //ストリームをレコーダーに登録
     const recorder = new MediaRecorder(canvasStream, { mimeType: "video/webm;codecs=vp9" });
     
     //録画ボタン押下後処理
     document.getElementById("record").onclick=function(){
 	    //pose.onResults(onResults);
-
-
         
         //録画開始
         recorder.start();
@@ -172,9 +154,6 @@
         //drawLandmarks(canvasCtx, results.poseLandmarks,{color: '#FF0000', lineWidth: 2});
 
         canvasCtx.restore();
-
-        //デバッグ用
-        //grid.updateLandmarks(results.poseWorldLandmarks);
     }
 
     //mediapipe_poseライブラリの読み込み
@@ -218,7 +197,7 @@
             loader.style.opacity = 0;
             }
         const loaderDisplay = function(){
-        loader.style.display = "none";
+            loader.style.display = "none";
         }
         // setTimeout(loaderOpacity, 1);
         // setTimeout(loaderDisplay, ms);
@@ -227,4 +206,4 @@
         setTimeout(loaderDisplay, 1000 + ms);
         });
         
-    </script>
+</script>
