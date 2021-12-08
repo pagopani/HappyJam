@@ -42,7 +42,7 @@
                 {% csrf_token %}
                 <input class="btn" type="submit" value="Yes">
             </form>
-            <form method="POST" action="{% url 'Preview' %}">
+            <form method="POST" action="{% url 'edit' %}">
                 {% csrf_token %}
                 <input class="btn" type="submit" value="No">
             </form>

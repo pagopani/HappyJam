@@ -1,10 +1,15 @@
 """
 Definition of views.
 """
-
+import sys
+import os
+import numpy as np
+import moviepy.editor as mp
 from datetime import datetime
 from django.shortcuts import render
 from django.http import HttpRequest
+from moviepy.editor import VideoFileClip
+
 
 def home(request):
     """Renders the home page."""
@@ -94,5 +99,23 @@ def Preview(request):
             'year':datetime.now().year,
         }
     )
+
+def edit(request):
+    #定数の定義
+    #開始から何秒をサンプリングするか 
+    SAMPLE_RANGE = 60 
+    # 映像と音声を結合して保存 
+    clip = mp.VideoFileClip('app/static/app/movie/demo.mp4').subclip()
+    clip.write_videofile('app/static/app/movie/main.mp4', audio='app/static/app/music/rock/rock.mp3')
+
+    return render(
+        request,
+        'app/Preview.html',
+        {
+            'title':'Preview',
+            'message':'Your application description page.',
+            'year':datetime.now().year,
+        }
+)
 
 

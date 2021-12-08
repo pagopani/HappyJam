@@ -31,7 +31,8 @@
                     <span>Preview</span>
                 </div>
             </main>
-            <video width="900" height="500" src="{% static 'app/movie/demo.mp4' %}" controls></video>
+            {% load static %}
+            <video width="900" height="500" src="{% static 'app/movie/main.mp4' %}" controls></video>
 
             <form method="POST" action="{% url 'home' %}">
                 {% csrf_token %}
@@ -55,8 +56,8 @@
         // setTimeout(loaderOpacity, 1);
         // setTimeout(loaderDisplay, ms);
         // デモ用
-        setTimeout(loaderOpacity, 5000);
-        setTimeout(loaderDisplay, 5000 + ms);
+        setTimeout(loaderOpacity, 2000);
+        setTimeout(loaderDisplay, 2000 + ms);
         });
         
     </script>
