@@ -19,11 +19,6 @@
     <!--howler.js導入-->
     <script src="https://cdn.jsdelivr.net/npm/howler@2.2.0/dist/howler.min.js"></script>
 
-    <!--音楽データ読み込み
-    <audio preload="auto">
-        <source src="{% static 'app/music/rock/rock.mp3' %}">
-        <source src="instrument.mp3">
-    </audio>-->
 </head>
 <body>
     <div id="loading-wrapper">
@@ -85,7 +80,7 @@
 
     //howler.js導入
     var sound = new Howl({
-        src: ['{% static 'app/music/rock/rock.mp3' %}', '{% static 'app/music/rock/rock.mp3' %}'],
+        src: ['', ''],
 
         //オプション
         preload: true,   // 事前ロード
@@ -96,6 +91,10 @@
         // 読み込み完了時に実行する処理
         onload: ()=>{
             record.removeAttribute("disabled");  // ボタンを使用可能にする
+        },
+
+        onend: ()=>{
+            recorder.stop();//録画終了
         }
     });
 
@@ -114,7 +113,6 @@
     audioCtx.audioWorklet.addModule('processors.js').then(() => {
         let node = new MyWorkletNode(audioCtx);
     });
-
 
     //bgm
     var bgmTrack = document.querySelector("audio");
@@ -137,20 +135,15 @@
     document.getElementById("record").onclick=function(){
 	    //pose.onResults(onResults);
 
-        //音楽再生開始
-        var id1 = sound.play();
-        var id2 = sound.play();
 
+        
         //録画開始
         recorder.start();
 
-        //音楽再生
-        //bgm.play();
-        
-	    //bgm.addEventListener("ended", function () {
-            recorder.stop();
-            
-	    //}, false);
+        //音楽再生開始
+        var id1 = sound.play();
+        var id2 = sound.play();
+        id2.volume(0);
     }
 
     function onResults(results) {
@@ -162,11 +155,11 @@
         canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
 
         //↓↓背景透過↓↓
-        canvasCtx.drawImage(results.segmentationMask, 0, 0, canvasElement.width, canvasElement.height);
+        //canvasCtx.drawImage(results.segmentationMask, 0, 0, canvasElement.width, canvasElement.height);
         // Only overwrite existing pixels.
-        canvasCtx.globalCompositeOperation = 'source-out';
-        canvasCtx.fillStyle = '#00FF00';
-        canvasCtx.fillRect(0, 0, canvasElement.width, canvasElement.height);
+        //canvasCtx.globalCompositeOperation = 'source-out';
+        //canvasCtx.fillStyle = '#00FF00';
+        //canvasCtx.fillRect(0, 0, canvasElement.width, canvasElement.height);
 
         //カメラ画像表示
         // Only overwrite missing pixels.
@@ -174,9 +167,9 @@
         canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
 
         //↓↓ポーン情報表示↓↓
-        canvasCtx.globalCompositeOperation = 'source-over';
-        drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, { color: '#00FF00', lineWidth: 4 });
-        drawLandmarks(canvasCtx, results.poseLandmarks,{color: '#FF0000', lineWidth: 2});
+        //canvasCtx.globalCompositeOperation = 'source-over';
+        //drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, { color: '#00FF00', lineWidth: 4 });
+        //drawLandmarks(canvasCtx, results.poseLandmarks,{color: '#FF0000', lineWidth: 2});
 
         canvasCtx.restore();
 
@@ -194,8 +187,8 @@
         selfieMode: true,
         modelComplexity: 0,
         smoothLandmarks: true,
-        enableSegmentation: true,
-        smoothSegmentation: true,
+        enableSegmentation: false,
+        smoothSegmentation: false,
         minDetectionConfidence: 0.5,
         minTrackingConfidence: 0.5
     });
