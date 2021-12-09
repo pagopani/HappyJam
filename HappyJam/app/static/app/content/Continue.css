@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
 html {
     height: 100%;
 }
@@ -6,6 +7,9 @@ html {
 body {
     margin: 0;
 }
+
+
+/*------------------------loading-----------------------------*/
 #loading-wrapper {
     position: fixed;
     top: 0;
@@ -314,13 +318,16 @@ body {
         width: 100px;
     }
 }
+/*------------------------loading-end-----------------------------*/
+
+/*------------------------box-----------------------------*/
 
 .box {
     font-weight: bold;
     background-color: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(9px);
     -webkit-backdrop-filter: blur(9px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: 3px solid rgba(255, 255, 255, 0.18);
     box-shadow: rgba(142, 142, 142, 0.19) 0px 6px 15px 0px;
     -webkit-box-shadow: rgba(142, 142, 142, 0.19) 0px 6px 15px 0px;
     border-radius: 25px;
@@ -338,6 +345,7 @@ body {
     height: 100vh;
     min-height: 100vh;
 }
+/*------------------------box-end-----------------------------*/
 
 .title {
     display: flex;
@@ -349,6 +357,11 @@ body {
     text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2), 0 20px 20px rgba(0,0,0,.15);
 }
 
+sub {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 10px;
+}
 
 /*------------------------main------------------------------*/
 main {
@@ -489,46 +502,28 @@ main {
 
 /*------------------------botton------------------------------*/
 .button {
-    --glow-color: rgb(217, 176, 255);
-    --glow-spread-color: rgba(191, 123, 255, 0.781);
-    --enhanced-glow-color: rgb(231, 206, 255);
-    --btn-color: rgb(100, 61, 136);
+    width: 140px;
+    height: 45px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: none;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
     outline: none;
-    border: .14em solid var(--glow-color);
-    padding: 1.5em 4em;
-    color: var(--glow-color);
-    font-weight: bold;
-    background-color: var(--btn-color);
-    border-radius: 3.5em;
-    outline: none;
-    box-shadow: 0 0 1em .25em var(--glow-color), 0 0 4em 1em var(--glow-spread-color), inset 0 0 .75em .25em var(--glow-color);
-    text-shadow: 0 0 .5em var(--glow-color);
-    position: relative;
-    transition: all 0.3s;
 }
 
-    .button::after {
-        pointer-events: none;
-        content: "";
-        position: absolute;
-        top: 120%;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        background-color: var(--glow-spread-color);
-        filter: blur(2em);
-        opacity: .7;
-        transform: perspective(1.5em) rotateX(35deg) scale(1, .6);
-    }
-
     .button:hover {
-        color: var(--btn-color);
-        background-color: var(--glow-color);
-        box-shadow: 0 0 1em .25em var(--glow-color), 0 0 4em 2em var(--glow-spread-color), inset 0 0 .75em .25em var(--glow-color);
-    }
-
-    .button:active {
-        box-shadow: 0 0 0.6em .25em var(--glow-color), 0 0 2.5em 2em var(--glow-spread-color), inset 0 0 .5em .25em var(--glow-color);
+        background-color: #2EE59D;
+        box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+        color: #fff;
+        transform: translateY(-7px);
     }
 /*------------------------button-end-----------------------------*/
 
@@ -562,16 +557,11 @@ main {
     .card .cardImgframe img {
         height: 300px;
         width: 500px;
-        border-radius: 60% 60% 60% 60%/60% 60% 60% 60%;
-        filter: drop-shadow(15px 15px 0 #b200ff);
-        object-fit: cover;
+        filter: drop-shadow(15px 15px 0 #4486ed);
+        object-fit: scale-down;
     }
-
-
-
-
-
 /*------------------------card-end-----------------------------*/
+
 /*------------------------swiper-end-----------------------------*/
 
 .swiper {
@@ -586,37 +576,47 @@ main {
 
 /*------------------------swiper-end-----------------------------*/
 
-.btn {
+.sub {
     display: flex;
-    height: 3em;
-    width: 100px;
-    align-items: center;
-    justify-content: center;
-    background-color: #eeeeee4b;
-    border-radius: 3px;
-    letter-spacing: 1px;
-    transition: all 0.2s linear;
-    cursor: pointer;
-    border: none;
-    background: #fff;
+    text-align: center;
 }
 
-    .btn > svg {
-        margin-right: 5px;
-        margin-left: 5px;
-        font-size: 20px;
-        transition: all 0.4s ease-in;
+    .sub input {
+        margin: 0px 10px;
     }
 
-    .btn:hover > svg {
-        font-size: 1.2em;
-        transform: translateX(-5px);
-    }
+/*------------------------btn-----------------------------*/
+
+
+
+
+
+.btn {
+    --yellow: #dbed3b;
+    font-size: 20px;
+    padding: 0.7em 2.7em;
+    letter-spacing: 0.06em;
+    font-family: inherit;
+    border-radius: 1.5em;
+    transition: all 0.3s;
+    line-height: 1.4em;
+    border: 3px solid var(--yellow);
+    background: linear-gradient(to right, rgba(27, 253, 156, 0.1) 1%, transparent 40%,transparent 60%, rgba(27, 253, 156, 0.1) 100%);
+    color: var(--yellow);
+    box-shadow: inset 0 0 10px #ede69d, 0 0 9px 3px rgba(27, 253, 156, 0.1);
+}
 
     .btn:hover {
-        box-shadow: 9px 9px 33px #d1d1d1, -9px -9px 33px #ffffff;
-        transform: translateY(-2px);
+        color: #edf546;
+        box-shadow: inset 0 0 10px rgba(27, 253, 156, 0.6), 0 0 9px 3px rgba(27, 253, 156, 0.2);
     }
+
+    .btn:active {
+        transform: scale(0.96);
+    }
+/*------------------------btn-end-----------------------------*/
+
+
 /*-------------------------bg-----------------------------*/
 
 .bg {
@@ -650,69 +650,3 @@ main {
     }
 }
 /*------------------------bg-end-----------------------------*/
-
-
-.sub {
-    display: flex;
-    text-align: center;
-}
-
-    .sub input {
-        margin: 20px 10px;
-    }
-
-/*------------------------button-----------------------------*/
-
-
-
-.button {
-    width: 140px;
-    height: 45px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 2.5px;
-    font-weight: 500;
-    color: #000;
-    background-color: #fff;
-    border: none;
-    border-radius: 45px;
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease 0s;
-    cursor: pointer;
-    outline: none;
-}
-
-    .button:hover {
-        background-color: #2EE59D;
-        box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
-        color: #fff;
-        transform: translateY(-7px);
-    }
-/*------------------------button-end-----------------------------*/
-
-/*------------------------btn-----------------------------*/
-.btn {
-    --yellow: #dbed3b;
-    font-size: 20px;
-    padding: 0.7em 2.7em;
-    letter-spacing: 0.06em;
-    font-family: inherit;
-    border-radius: 1.5em;
-    transition: all 0.3s;
-    line-height: 1.4em;
-    border: 3px solid var(--yellow);
-    background: linear-gradient(to right, rgba(27, 253, 156, 0.1) 1%, transparent 40%,transparent 60%, rgba(27, 253, 156, 0.1) 100%);
-    color: var(--yellow);
-    box-shadow: inset 0 0 10px #ede69d, 0 0 9px 3px rgba(27, 253, 156, 0.1);
-}
-
-    .btn:hover {
-        color: #edf546;
-        box-shadow: inset 0 0 10px rgba(27, 253, 156, 0.6), 0 0 9px 3px rgba(27, 253, 156, 0.2);
-    }
-
-    .btn:active {
-        transform: scale(0.96);
-    }
-/*------------------------btn-end-----------------------------*/

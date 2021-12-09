@@ -31,13 +31,17 @@
                     <span>Preview</span>
                 </div>
             </main>
-            {% load static %}
+             {% load static %}
             <video width="900" height="500" src="{% static 'app/movie/main.mp4' %}" controls></video>
 
-            <form method="POST" action="{% url 'home' %}">
+            <div class="sub">
+                <form method="POST" action="{% url 'home' %}">
                 {% csrf_token %}
                 <input class="btn" type="submit" value="Finish">
             </form>
+            </div>
+           
+            
 
         </div>
     </div>
