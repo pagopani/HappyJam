@@ -323,15 +323,15 @@ body {
 
 .box {
     font-weight: bold;
-    background-color: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(9px);
-    -webkit-backdrop-filter: blur(9px);
-    border: 3px solid rgba(255, 255, 255, 0.18);
-    box-shadow: rgba(142, 142, 142, 0.19) 0px 6px 15px 0px;
+    background: rgba( 175, 175, 253, 0.2 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 19.5px );
+    -webkit-backdrop-filter: blur( 19.5px );
+    border-radius: 10px;
+    border: 3px solid rgba( 255, 255, 255, 0.18 );
     -webkit-box-shadow: rgba(142, 142, 142, 0.19) 0px 6px 15px 0px;
     border-radius: 25px;
     -webkit-border-radius: 25px;
-    color: rgba(255, 255, 255, 0.6);
     position: relative;
     transition: all 0.3s;
     padding: 1.5em 4em;

@@ -31,14 +31,8 @@
                     <span>Continue?</span>
                 </div>
             </main>
-            <div class="sub">
-
-                <form method="POST" action="{% url 'home' %}">
-                {% csrf_token %}
-                <input class="button" type="submit" value="home">
-            </form>
-
-                <form method="POST" action="{% url 'Instrument' %}">
+            <sub>
+            <form method="POST" action="{% url 'Instrument' %}">
                 {% csrf_token %}
                 <input class="btn" type="submit" value="Yes">
             </form>
@@ -46,9 +40,13 @@
                 {% csrf_token %}
                 <input class="btn" type="submit" value="No">
             </form>
-            
+            </sub>
 
-            
+            <div class="sub">
+                <form method="POST" action="{% url 'home' %}">
+                {% csrf_token %}
+                <input class="button" type="submit" value="home">
+            </form>
             </div>
 
         </div>
