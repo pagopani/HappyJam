@@ -18,22 +18,25 @@
     <!--howler.js導入-->
     <script src="https://cdn.jsdelivr.net/npm/howler@2.2.0/dist/howler.min.js"></script>
 
+    <!--Tensorflow.js導入-->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"></script>
+
 </head>
 <body>
     <div id="loading-wrapper">
-      <div class="cube-wrapper">
-  <div class="cube-folding">
-    <span class="leaf1"></span>
-    <span class="leaf2"></span>
-    <span class="leaf3"></span>
-    <span class="leaf4"></span>
-  </div>
-  <span class="loading" data-name="Loading">Loading</span>
-</div>
-  </div>
-        <div class="bg"></div>
-<div class="bg bg2"></div>
-<div class="bg bg3"></div>
+        <div class="cube-wrapper">
+            <div class="cube-folding">
+                <span class="leaf1"></span>
+                <span class="leaf2"></span>
+                <span class="leaf3"></span>
+                <span class="leaf4"></span>
+            </div>
+            <span class="loading" data-name="Loading">Loading</span>
+        </div>
+    </div>
+    <div class="bg"></div>
+    <div class="bg bg2"></div>
+    <div class="bg bg3"></div>
     <div class="box-center">
         <div class="box">
             <main>
@@ -50,7 +53,6 @@
                 <!-- 出力画面用キャンパス -->
                 <canvas class="output_canvas" width="1280px" height="720px"></canvas>
             </div>
-
 
             <div class="sub">
                 <form method="POST" action="{% url 'home' %}">
@@ -86,7 +88,12 @@
         onload: ()=>{
             record.removeAttribute("disabled");  // ボタンを使用可能にする
         },
-
+        //bgm再生時に録画開始
+        onplay: (id1) => {
+            recorder.start(); //録画開始
+            //楽器音源の音量を0に設定（初期値）
+            id2.volume(0);
+        },
         onend: ()=>{
             recorder.stop();//録画終了
         }
@@ -118,14 +125,10 @@
     //録画ボタン押下後処理
     document.getElementById("record").onclick=function(){
 	    //pose.onResults(onResults);
-        
-        //録画開始
-        recorder.start();
 
-        //音楽再生開始
+        //音楽再生(録画)開始
         var id1 = sound.play();
         var id2 = sound.play();
-        id2.volume(0);
     }
 
     function onResults(results) {
