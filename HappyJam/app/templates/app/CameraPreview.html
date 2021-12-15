@@ -36,11 +36,11 @@
 
                 <form method="POST" action="{% url 'home' %}">
                 {% csrf_token %}
-                <input class="button" type="submit" value="home">
+                <input class="button" type="image" src="{% static 'app/img/home.png' %}">
                 </form>
                 <form method="POST" action="{% url 'Instrument' %}">
                 {% csrf_token %}
-                <input class="button" type="submit" value="back">
+                <input class="button" type="image" src="{% static 'app/img/back.png' %}">
                 </form>
 
                 <form method="POST" action="{% url 'Video' %}">

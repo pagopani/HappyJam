@@ -47,7 +47,7 @@
 
                                 </div>
                                 </main>
-                                <div class="cardButtonbox"><input class="btn" type="submit" value="pop"></div>
+                                <div class="cardButtonbox"><input class="btn" type="submit" value="pop" id="pop" name="pop"></div>
                             </div>
                             
                          </div>
@@ -59,7 +59,7 @@
                                 <img src="{% static 'app/img/jazz2.png' %}"/>
                                 </div>
                                 </main>
-                                <div class="cardButtonbox"><input class="btn" type="submit" value="jazz"></div>
+                                <div class="cardButtonbox"><input class="btn" type="submit" value="jazz" id="jazz" name="jazz"></div>
                              </div>
                             
                         </div>
@@ -71,7 +71,7 @@
                                     <img src="{% static 'app/img/rock.png' %}"/>
                                 </div>
                                 </main>
-                                <div class="cardButtonbox"><input class="btn" type="submit" value="rock"></div>
+                                <div class="cardButtonbox"><input class="btn" type="submit" value="rock" id="rock" name="rock"></div>
                              </div>
                              
                          </div>
@@ -81,7 +81,7 @@
                 </form>
             <form method="POST" action="{% url 'home' %}">
                 {% csrf_token %}
-                <input class="button" type="submit" value="home">
+                <input class="button" type="image" src="{% static 'app/img/home.png' %}" >
             </form>
             </div>
         </div>

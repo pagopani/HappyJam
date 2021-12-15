@@ -10,13 +10,13 @@ from app import forms, views
 
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('Instrument/', views.Instrument, name='Instrument'),
-    path('Genre/', views.Genre, name='Genre'),
-    path('Video/', views.Video, name='Video'),
-    path('CameraPreview/', views.CameraPreview, name='CameraPreview'),
-    path('Continue/', views.Continue, name='Continue'),
-    path('Preview/', views.Preview, name='Preview'),
+    path('', views.homeView.as_view(), name='home'),
+    path('instrument/', views.instrumentView.as_view(), name='Instrument'),
+    path('genre/', views.genreView.as_view(), name='Genre'),
+    path('video/', views.videoView.as_view(), name='Video'),
+    path('camerapreview/', views.camerapreviewView.as_view(), name='CameraPreview'),
+    path('continue_view/', views.continueView.as_view(), name='Continue'),
+    path('preview/', views.previewView.as_view(), name='Preview'),
 
     path('login/',
          LoginView.as_view
@@ -32,5 +32,5 @@ urlpatterns = [
          name='login'),
     path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
     path('admin/', admin.site.urls),
-    path('edit/', views.edit, name='edit'),
+    path('edit/', views.editView.as_view(), name='edit'),
 ]
