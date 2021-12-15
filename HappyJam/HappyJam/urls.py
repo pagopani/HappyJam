@@ -13,10 +13,10 @@ urlpatterns = [
     path('', views.homeView.as_view(), name='home'),
     path('instrument/', views.instrumentView.as_view(), name='Instrument'),
     path('genre/', views.genreView.as_view(), name='Genre'),
-    path('video/', views.videoView, name='Video'),
-    path('camerapreview/', views.camerapreviewView, name='CameraPreview'),
-    path('continue_view/', views.continueView, name='Continue'),
-    path('preview/', views.previewView, name='Preview'),
+    path('video/', views.videoView.as_view(), name='Video'),
+    path('camerapreview/', views.camerapreviewView.as_view(), name='CameraPreview'),
+    path('continue_view/', views.continueView.as_view(), name='Continue'),
+    path('preview/', views.previewView.as_view(), name='Preview'),
 
     path('login/',
          LoginView.as_view
@@ -32,5 +32,5 @@ urlpatterns = [
          name='login'),
     path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
     path('admin/', admin.site.urls),
-    path('edit/', views.editView, name='edit'),
+    path('edit/', views.editView.as_view(), name='edit'),
 ]
