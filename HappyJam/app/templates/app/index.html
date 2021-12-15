@@ -10,18 +10,8 @@
     <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
 </head>
 <body>
-    <!-- ローディング画面 -->
-  <div id="loading-wrapper">
-      <div class="cube-wrapper">
-  <div class="cube-folding">
-    <span class="leaf1"></span>
-    <span class="leaf2"></span>
-    <span class="leaf3"></span>
-    <span class="leaf4"></span>
-  </div>
-  <span class="loading" data-name="Loading">Loading</span>
-</div>
-  </div>
+
+  
      <div class="bg"></div>
 <div class="bg bg2"></div>
 <div class="bg bg3"></div>
@@ -38,6 +28,18 @@
             </form>
             </div>
     </div>
+        <!-- ローディング画面 -->
+    <div id="loading-wrapper">
+      <div class="cube-wrapper">
+  <div class="cube-folding">
+    <span class="leaf1"></span>
+    <span class="leaf2"></span>
+    <span class="leaf3"></span>
+    <span class="leaf4"></span>
+  </div>
+  <span class="loading" data-name="Loading">Loading</span>
+</div>
+  </div>
     <script>
     const loader = document.getElementById('loading-wrapper');
         window.addEventListener('load', () => {
