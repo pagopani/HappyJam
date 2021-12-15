@@ -55,7 +55,7 @@
             <div class="sub">
                 <form method="POST" action="{% url 'home' %}">
                     {% csrf_token %}
-                    <input class="button" type="submit" value="home">
+                    <input class="button" type="image" src="{% static 'app/img/home.png' %}">
                 </form>
                 <form method="POST" action="{% url 'Continue' %}">
                     {% csrf_token %}
