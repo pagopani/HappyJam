@@ -17,7 +17,18 @@ class camerapreviewView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         if request.method == 'POST':
-            return render(request,'app/CameraPreview.html')
+             if 'guitar'in request.POST:
+                request.session['inst'] = 'guitar'
+
+             if 'bass'in request.POST:
+                request.session['inst'] = 'bass'     
+                
+             if 'drum'in request.POST:
+                request.session['inst'] = 'drum'
+            
+        inst=request.session['inst'] 
+        print(inst)
+        return render(request,'app/CameraPreview.html')
 
 
 CameraPreview = camerapreviewView.as_view()

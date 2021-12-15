@@ -9,7 +9,6 @@ from datetime import datetime
 from django.shortcuts import render
 from django.http import HttpRequest
 from moviepy.editor import VideoFileClip
-import cv2
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 
@@ -96,7 +95,3 @@ class  editView(TemplateView):
         return render(request,'app/Preview.html')
 
 edit =editView.as_view()
-
-    
-
-

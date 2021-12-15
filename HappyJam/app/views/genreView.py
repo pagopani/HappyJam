@@ -15,9 +15,19 @@ class genreView(TemplateView):
         context['title'] = 'genre'
         return context
 
+    def set_cookie(self,key,value='', max_age=None, expires=None, path='/',domain=None, secure=False, httponly=False, samesite=None):
+        a = b
+    
     def post(self, request, *args, **kwargs):
-        print('POST')
+        if request.method == 'POST':
+            if 'single'in request.POST:
+                request.session['use'] = 'single'
+
+            if 'multi'in request.POST:
+                request.session['use'] = 'multi'
+        
+        use=request.session['use'] 
+        print(use)
         return render(request,'app/Genre.html')
 
 genre =genreView.as_view()
-
