@@ -62,7 +62,7 @@
                 <form method="POST" action="{% url 'Continue' %}">
                     {% csrf_token %}
                     <input class="btn" type="submit" value="GO!" id="record">
-                </form>   
+                </form>
             </div>
         </div>
     </div>
@@ -76,7 +76,7 @@
 
     //howler.js導入
     var sound = new Howl({
-        src: ['', ''],
+        src: ['{%static 'app/music/{{request.session.genre}}/bgm.mp3'}', '{%static 'app/music/{{request.session.genre}}/{{request.session.instrument}}.mp3'}'],
 
         //オプション
         preload: true,   // 事前ロード
