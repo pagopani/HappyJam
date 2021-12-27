@@ -43,6 +43,7 @@ class Single(models.Model):
 
 class Room(models.Model):
     user = models.IntegerField()
+    room_id = models.IntegerField(null=True)
     instrument_id = models.ForeignKey(Instrument, on_delete=models.CASCADE, null = True)
     movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE, null = True)
     
@@ -52,7 +53,7 @@ class Room(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["id","user"],
+                fields=["room_id","user"],
                 name = "room_unique"
             ),
         ]
