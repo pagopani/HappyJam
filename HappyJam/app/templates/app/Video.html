@@ -76,7 +76,7 @@
 
     //howler.js導入
     var sound = new Howl({
-        src: ['{%static 'app/music/{{request.session.genre}}/bgm.mp3'}', '{%static 'app/music/{{request.session.genre}}/{{request.session.instrument}}.mp3'}'],
+        src: ['/static/app/music/{{request.session.genre}}/bgm.mp3', '/static/app/music/{{request.session.genre}}/{{request.session.instrument}}.mp3'],
 
         //オプション
         preload: true,   // 事前ロード
@@ -130,6 +130,18 @@
         var id1 = sound.play();
         var id2 = sound.play();
     }
+
+    let chunks = [];
+    recorder.addEventListener('dataavailable', (e) => {
+        chunks.push(e.data);
+    });
+
+    //録画停止後の処理
+    recorder.addEventListener('stop', () => {
+        // 貯めていたデータをまるっとひとかたまりに
+        const blob = new Blob(chunks, {type: 'video/webm'});
+        
+    });
 
     function onResults(results) {
         if (!results.poseLandmarks) {
