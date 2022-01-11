@@ -19,6 +19,14 @@ class Instrument(models.Model):
     def __str__(self):
         return self.instrument
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["instrument"],
+                name = "instrument_unique"
+            ),
+        ]
+
 
 
 class User(models.Model):
