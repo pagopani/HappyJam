@@ -77,6 +77,9 @@
     //tfjs_modelロード
     const model = await tf.loadLayersModel('{% static 'app/tfjs_model/model.json' %}');
 
+    //volume判定フラグ
+    var v_flag = 0;
+
     var tmp_point_history=[];//tfjs用
 
     //howler.js導入
@@ -108,7 +111,7 @@
 
         //オプション
         preload: true,   // 事前ロード
-        volume: 0.8,     // 音量(0.0〜1.0の範囲で指定)
+        volume: 0.5,     // 音量(0.0〜1.0の範囲で指定)
         loop: false,     // ループ再生するか
         autoplay: false, // 自動再生するか
 
@@ -255,13 +258,18 @@
         canvasCtx.restore();
     }
 
-    
-
+    //演奏判定
     async function change_volume(flag){
         if(flag==1){
-            sound2.volume(0.8);
+            if(v_flag==0){
+                v_flag=1;   //音鳴ってるかのフラグ
+                sound2.volume(0.5);  //音を出す
+            }
         }else{
-            sound2.volume(0.0);
+            if(v_flag==1){
+                v_flag=0;
+                sound2.fade(0.5,0.0,100);  //volumeを1秒で0.5から0.0にフェードアウト
+            }
         }
     }
   
