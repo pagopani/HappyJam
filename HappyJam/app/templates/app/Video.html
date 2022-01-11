@@ -74,6 +74,9 @@
     const canvasElement = document.getElementsByClassName('output_canvas')[0];
     const canvasCtx = canvasElement.getContext('2d');
 
+    //tfjs_modelロード
+    const model = await tf.loadLayersModel('{% static 'app/tfjs_model/model.json' %}');
+
     var tmp_point_history=[];//tfjs用
 
     //howler.js導入
@@ -82,7 +85,7 @@
 
         //オプション
         preload: true,   // 事前ロード
-        volume: 1.0,     // 音量(0.0〜1.0の範囲で指定)
+        volume: 0.8,     // 音量(0.0〜1.0の範囲で指定)
         loop: false,     // ループ再生するか
         autoplay: false, // 自動再生するか
 
@@ -105,7 +108,7 @@
 
         //オプション
         preload: true,   // 事前ロード
-        volume: 0.0,     // 音量(0.0〜1.0の範囲で指定)
+        volume: 0.8,     // 音量(0.0〜1.0の範囲で指定)
         loop: false,     // ループ再生するか
         autoplay: false, // 自動再生するか
 
@@ -233,16 +236,35 @@
             tmp_array.push([results.poseLandmarks[i].x,results.poseLandmarks[i].y]);
         }
         tmp_point_history.push(tmp_array);
+        
 
         //機械学習への入力データ取得
-        if(tmp_point_history.length<16){
+        if(tmp_point_history.length > 16){
             tmp_point_history.splice(0,tmp_point_history.length-16);
             //TensorFlowJSへ入力
+            let tmp_point_history_flat=tmp_point_history.flat(Infinity);
+            const x = tf.tensor1d(Float32Array.from(tmp_point_history_flat)).reshape([1,16,13,2]);
             
+            //推論結果を出力
+            const y = model.predict(x);
+            let flag =y.reshape([-1]).argMax().arraySync()
+            console.log(flag);
+            //演奏判定
+            change_volume(flag);
         }
-
         canvasCtx.restore();
     }
+
+    
+
+    async function change_volume(flag){
+        if(flag==1){
+            sound2.volume(0.8);
+        }else{
+            sound2.volume(0.0);
+        }
+    }
+  
 
     //mediapipe_poseライブラリの読み込み
     const pose = new Pose({locateFile: (file) => {
