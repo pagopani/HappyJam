@@ -21,6 +21,7 @@
     <!--Tensorflow.js導入-->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"></script>
 
+    
 </head>
 <body>
     <div id="loading-wrapper">
@@ -59,10 +60,9 @@
                     {% csrf_token %}
                     <input class="button" type="image" src="{% static 'app/img/home.png' %}">
                 </form>
-                <form method="POST" action="{% url 'Continue' %}">
-                    {% csrf_token %}
+                <!--<form method="POST" action="{% url 'Continue' %}"-->
                     <input class="btn" type="submit" value="GO!" id="record">
-                </form>
+                <!--</form>-->
             </div>
         </div>
     </div>
@@ -74,9 +74,11 @@
     const canvasElement = document.getElementsByClassName('output_canvas')[0];
     const canvasCtx = canvasElement.getContext('2d');
 
+    var tmp_point_history=[];//tfjs用
+
     //howler.js導入
-    var sound = new Howl({
-        src: ['/static/app/music/{{request.session.genre}}/bgm.mp3', '/static/app/music/{{request.session.genre}}/{{request.session.instrument}}.mp3'],
+    var sound1 = new Howl({
+        src: ['/static/app/music/{{request.session.genre}}/bgm.mp3',],
 
         //オプション
         preload: true,   // 事前ロード
@@ -89,59 +91,115 @@
             record.removeAttribute("disabled");  // ボタンを使用可能にする
         },
         //bgm再生時に録画開始
-        onplay: (id1) => {
-            recorder.start(); //録画開始
-            //楽器音源の音量を0に設定（初期値）
-            id2.volume(0);
+        //onplay: () => {
+            
+            
+        //},
+        //onend: ()=>{
+        //    recorder.stop();//録画終了
+        //}
+    });
+
+    var sound2 = new Howl({
+        src: ['/static/app/music/{{request.session.genre}}/guitar.mp3'],
+
+        //オプション
+        preload: true,   // 事前ロード
+        volume: 0.0,     // 音量(0.0〜1.0の範囲で指定)
+        loop: false,     // ループ再生するか
+        autoplay: false, // 自動再生するか
+
+        // 読み込み完了時に実行する処理
+        onload: ()=>{
+            record.removeAttribute("disabled");  // ボタンを使用可能にする
         },
-        onend: ()=>{
-            recorder.stop();//録画終了
-        }
     });
-
-    //動画録画用
-    const canvasStream = canvasElement.captureStream();
-
-    //録音用
-    const audioContext = Howler.ctx;
-    const audioNode = Howler.masterGain;
-    const destination = audioContext.createMediaStreamDestination();
-    audioNode.connect(destination);
-    //コンテキストとノードのずれ防止らしいけど↓二行なくてもいける？
-    const oscillator = audioContext.createOscillator();
-    oscillator.connect(destination);
-    const audioStream = destination.stream;
-
-    //動画と音声のストリーム合成
-    const mediaStream = new MediaStream();
-
-    [canvasStream, audioStream].forEach((stream) => {
-        stream.getTracks().forEach((track) => mediaStream.addTrack(track));
-    });
-
-    //ストリームをレコーダーに登録
-    const recorder = new MediaRecorder(canvasStream, { mimeType: "video/webm;codecs=vp9" });
     
     //録画ボタン押下後処理
     document.getElementById("record").onclick=function(){
-	    //pose.onResults(onResults);
+	    pose.onResults(onResults);
+         //動画録画用
+        const canvasStream = canvasElement.captureStream();
 
+        //録音用
+        const audioContext = Howler.ctx;
+        const audioNode = Howler.masterGain;
+        const destination = audioContext.createMediaStreamDestination();
+        audioNode.connect(destination);
+        //コンテキストとノードのずれ防止らしいけど↓二行なくてもいける？
+        const oscillator = audioContext.createOscillator();
+        oscillator.connect(destination);
+        const audioStream = destination.stream;
+
+        //動画と音声のストリーム合成
+        const mediaStream = new MediaStream();
+
+        [canvasStream, audioStream].forEach((stream) => {
+            stream.getTracks().forEach((track) => mediaStream.addTrack(track));
+        });
+
+        //ストリームをレコーダーに登録
+        const recorder = new MediaRecorder(mediaStream);
+
+        let chunks = [];
+        recorder.addEventListener('dataavailable', (e) => {
+            chunks.push(e.data);
+        });
         //音楽再生(録画)開始
-        var id1 = sound.play();
-        var id2 = sound.play();
-    }
-
-    let chunks = [];
-    recorder.addEventListener('dataavailable', (e) => {
-        chunks.push(e.data);
-    });
-
-    //録画停止後の処理
-    recorder.addEventListener('stop', () => {
-        // 貯めていたデータをまるっとひとかたまりに
+        sound1.play();
+        sound2.play();
+        recorder.start();
+        // 貯めていたデータをまるっとひとかたまりに 
         const blob = new Blob(chunks, {type: 'video/webm'});
+        sound1.once('end',() => {
         
-    });
+            recorder.stop();
+        });
+        //録画停止後の処理
+        recorder.addEventListener('stop', () => {
+            console.log("recording_finish");
+            
+            //formdataの生成
+            var formData = new FormData();
+            formData.append("movie_record", blob);
+
+            //Cookieの取得
+            function parse_cookies() {
+                var cookies = {};
+                if (document.cookie && document.cookie !== '') {
+                    document.cookie.split(';').forEach(function (c) {
+                        var m = c.trim().match(/(\w+)=(.*)/);
+                        if(m !== undefined) {
+                            cookies[m[1]] = decodeURIComponent(m[2]);
+                        }
+                    });
+                }
+                return cookies;
+            }
+            var cookies = parse_cookies(); 
+            console.log(cookies)
+
+            //録画データをサーバに送信
+            var request = new XMLHttpRequest();
+            request.open("POST", "{% url 'Continue' %}");
+            request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            request.setRequestHeader('X-CSRFToken', cookies['csrftoken']);
+            request.send(formData);
+            
+            //ページ遷移
+            var form = document.createElement('form');
+            form.action = '{% url 'Continue' %}';
+            form.method = 'post';
+            let csrf_element = document.createElement('input');
+            csrf_element.type = 'hidden';
+            csrf_element.name = 'csrfmiddlewaretoken';
+            csrf_element.value = '{{ csrf_token }}';
+            form.appendChild(csrf_element);
+            document.body.appendChild(form);
+            form.submit();
+            
+        });
+    }
 
     function onResults(results) {
         if (!results.poseLandmarks) {
@@ -167,6 +225,21 @@
         //canvasCtx.globalCompositeOperation = 'source-over';
         //drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, { color: '#00FF00', lineWidth: 4 });
         //drawLandmarks(canvasCtx, results.poseLandmarks,{color: '#FF0000', lineWidth: 2});
+
+        //座標データ取得
+        let tmp_array = [];
+        tmp_array.push([results.poseLandmarks[0].x,results.poseLandmarks[0].y]);
+        for (let i = 11; i <= 22; i++){
+            tmp_array.push([results.poseLandmarks[i].x,results.poseLandmarks[i].y]);
+        }
+        tmp_point_history.push(tmp_array);
+
+        //機械学習への入力データ取得
+        if(tmp_point_history.length<16){
+            tmp_point_history.splice(0,tmp_point_history.length-16);
+            //TensorFlowJSへ入力
+            
+        }
 
         canvasCtx.restore();
     }
