@@ -9,12 +9,13 @@ class Music(models.Model):
     music = models.TextField(null = True)
 
 class Movie(models.Model):
-    movie = models.TextField(null=True)
+    movie_path = models.TextField(null=True)
+    movie = models.FileField(null=True, upload_to="");
     music_id = models.ForeignKey(Music, on_delete=models.CASCADE, null = True)
 
 
 class Instrument(models.Model):
-    instrument = models.CharField(max_length=30)
+    instrument_name = models.CharField(max_length=30)
     
     def __str__(self):
         return self.instrument
@@ -22,7 +23,7 @@ class Instrument(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["instrument"],
+                fields=["instrument_name"],
                 name = "instrument_unique"
             ),
         ]
@@ -35,7 +36,7 @@ class User(models.Model):
 
 class Single(models.Model):
     uid = models.ForeignKey(User, on_delete=models.CASCADE ,)
-    instrument_id = models.ForeignKey(Instrument, on_delete=models.CASCADE)
+    instrument_id = models.ForeignKey(Instrument, on_delete=models.CASCADE, null=True)
     movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE, null = True)
     
     def __str__(self):
