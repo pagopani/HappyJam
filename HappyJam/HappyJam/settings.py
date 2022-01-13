@@ -114,3 +114,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies" #クッキーで保存
+
+# MediaFile(動画アップロード用)
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'

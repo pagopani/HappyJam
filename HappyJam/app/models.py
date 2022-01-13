@@ -14,6 +14,7 @@ class Movie(models.Model):
     music_id = models.ForeignKey(Music, on_delete=models.CASCADE, null = True)
 
 
+
 class Instrument(models.Model):
     instrument_name = models.CharField(max_length=30)
     

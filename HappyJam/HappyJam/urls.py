@@ -7,6 +7,8 @@ from django.urls import path
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, LogoutView
 from app import forms, views
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
@@ -34,3 +36,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('edit/', views.editView.as_view(), name='edit'),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

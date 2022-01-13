@@ -74,6 +74,8 @@
     const canvasElement = document.getElementsByClassName('output_canvas')[0];
     const canvasCtx = canvasElement.getContext('2d');
 
+    var blob;
+
     //tfjs_modelロード
     const model = await tf.loadLayersModel('{% static 'app/tfjs_model/model.json' %}');
 
@@ -107,7 +109,7 @@
     });
 
     var sound2 = new Howl({
-        src: ['/static/app/music/{{request.session.genre}}/guitar.mp3'],
+        src: ['/static/app/music/{{request.session.genre}}/{{request.session.inst}}.mp3'],
 
         //オプション
         preload: true,   // 事前ロード
@@ -125,7 +127,7 @@
     document.getElementById("record").onclick=function(){
 	    pose.onResults(onResults);
          //動画録画用
-        const canvasStream = canvasElement.captureStream();
+        const canvasStream = document.querySelector('canvas').captureStream();
 
         //録音用
         const audioContext = Howler.ctx;
@@ -147,7 +149,8 @@
         //ストリームをレコーダーに登録
         const recorder = new MediaRecorder(mediaStream);
 
-        let chunks = [];
+        const chunks = [];
+        
         recorder.addEventListener('dataavailable', (e) => {
             chunks.push(e.data);
         });
@@ -155,16 +158,15 @@
         sound1.play();
         sound2.play();
         recorder.start();
-        // 貯めていたデータをまるっとひとかたまりに 
-        const blob = new Blob(chunks, {type: 'video/webm'});
-        sound1.once('end',() => {
         
+        sound1.once('end',() => {
             recorder.stop();
         });
         //録画停止後の処理
         recorder.addEventListener('stop', () => {
+            blob= new Blob(chunks, {type: 'video/mp4'});　//動画貯める用
             console.log("recording_finish");
-            
+            console.log(blob);
             //formdataの生成
             var formData = new FormData();
             formData.append("movie_record", blob);
