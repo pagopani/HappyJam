@@ -3,11 +3,11 @@ from django.shortcuts import render
 from django.http import HttpRequest
 from django.http import HttpResponse
 from django.views.generic import TemplateView
+from ..models import User,Single
 
 
 class instrumentView(TemplateView):
     template_name = 'app/instrument.html'
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -17,6 +17,14 @@ class instrumentView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         if request.method == 'POST':
+            mode=request.session['mode'] 
+            if mode == "single":
+                user = User(created_date ="")
+                user.save()
+                request.session['uid'] = user.id
+                u_id=request.session['uid']
+                print(u_id)
+
             if 'pop'in request.POST:
                 request.session['genre'] = 'pop'
 
@@ -26,8 +34,8 @@ class instrumentView(TemplateView):
             if 'rock'in request.POST:
                 request.session['genre'] = 'rock'
         genre=request.session['genre']
-        use=request.session['use'] 
-        print(genre,use)
+        
+        print(genre,mode)
         return render(request,'app/Instrument.html')
 
 Instrument =instrumentView.as_view()

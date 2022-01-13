@@ -21,13 +21,13 @@ class genreView(TemplateView):
     def post(self, request, *args, **kwargs):
         if request.method == 'POST':
             if 'single'in request.POST:
-                request.session['use'] = 'single'
+                request.session['mode'] = 'single'
 
             if 'multi'in request.POST:
-                request.session['use'] = 'multi'
+                request.session['mode'] = 'multi'
         
-        use=request.session['use'] 
-        print(use)
+        mode=request.session['mode'] 
+        print(mode)
         return render(request,'app/Genre.html')
 
 genre =genreView.as_view()
