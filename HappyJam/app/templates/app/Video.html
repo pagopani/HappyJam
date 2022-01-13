@@ -166,6 +166,7 @@
         recorder.addEventListener('stop', () => {
             blob= new Blob(chunks, {type: 'video/mp4'});　//動画貯める用
             console.log("recording_finish");
+            console.log(chunks);
             console.log(blob);
             //formdataの生成
             var formData = new FormData();
