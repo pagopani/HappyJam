@@ -195,17 +195,20 @@
             request.setRequestHeader('X-CSRFToken', cookies['csrftoken']);
             request.send(formData);
             
-            //ページ遷移
-            var form = document.createElement('form');
-            form.action = '{% url 'Continue' %}';
-            form.method = 'post';
-            let csrf_element = document.createElement('input');
-            csrf_element.type = 'hidden';
-            csrf_element.name = 'csrfmiddlewaretoken';
-            csrf_element.value = '{{ csrf_token }}';
-            form.appendChild(csrf_element);
-            document.body.appendChild(form);
-            form.submit();
+
+            request.onloadend = function() {
+                //ページ遷移
+                var form = document.createElement('form');
+                form.action = '{% url 'Continue' %}';
+                form.method = 'post';
+                let csrf_element = document.createElement('input');
+                csrf_element.type = 'hidden';
+                csrf_element.name = 'csrfmiddlewaretoken';
+                csrf_element.value = '{{ csrf_token }}';
+                form.appendChild(csrf_element);
+                document.body.appendChild(form);
+                form.submit();
+            }
             
         });
     }
