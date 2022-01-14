@@ -19,17 +19,18 @@ class continueView(TemplateView):
     def post(self, request, *args, **kwargs):
         if request.method == 'POST':
             if request.is_ajax():
-                """Ajax 処理を別メソッドに切り離す"""
+                #Ajax 処理を別メソッドに切り離す
                 if request.FILES['movie_record']:
-                    movie = request.FILES['movie_record']
-                    fileobject = FileSystemStorage()
+                    movie = request.FILES['movie_record'] #formからmovie_recordをmovieに取得
+                    fileobject = FileSystemStorage() #ファイルオブジェクトを呼び出し
                     uid = request.session['uid']
                     genre = request.session['genre']
                     inst = request.session['inst']
-                    filename = str(uid) + "/" + genre + "/" +inst + ".mp4"
-                    fileobject.save(filename,movie)
-                    
-                    return
+                    filename = str(uid) + "/" + genre + "/" +inst + ".mp4" #保存先＆ファイル名をmedia直下のuid/genre/inst.mp4にする
+                    fileobject.save(filename,movie) #media/(uid)/(genre)/(inst).mp4にmovieを保存
+                    del request.session['p_flag']
+                    request.session['p_flag'] = 1 #録画完了フラグ
+                    return HttpResponse("ajax is done")
 
             return render(request,'app/Continue.html')
 

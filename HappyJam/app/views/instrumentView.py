@@ -36,6 +36,13 @@ class instrumentView(TemplateView):
         genre=request.session['genre']
         
         print(genre,mode)
+        #録画完了したことあるかのフラグ
+        if "p_flag" in request.session:
+            print(request.session['p_flag'])
+        else:
+            request.session['p_flag'] = 0
+        
+    
         return render(request,'app/Instrument.html')
 
 Instrument =instrumentView.as_view()

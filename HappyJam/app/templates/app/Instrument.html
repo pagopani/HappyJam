@@ -11,11 +11,7 @@
     <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
 </head>
 <body>
-    <script>
-        genre = request.session['genre']
-        console.log(genre)
-        genre:{{request.session.genre}}
-                    </script>
+
     
           <!-- ローディング画面 -->
   <div id="loading-wrapper">
@@ -90,7 +86,7 @@
                 {% csrf_token %}
                 <input class="button" type="image" src="{% static 'app/img/home.png' %}">
             </form>
-             <form method="POST" action="{% url 'Genre' %}">
+             <form method="POST" action="{% url 'Genre' %}" onclick="return checkFlag()">
                 {% csrf_token %}
                 <input class="button" type="image" src="{% static 'app/img/back.png' %}">
             </form>
@@ -98,6 +94,18 @@
              
         </div>
     </div>
+
+    <script>
+        function checkFlag() {
+            var p_flag = {{request.session.p_flag }}
+            if (p_flag != 0) {
+                alert('楽器を選択してください');
+                return false;
+            } else {
+                return true;
+            }
+        }
+    </script>
   
     <!-- Swiper JS -->
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
