@@ -17,8 +17,15 @@ class instrumentView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         if request.method == 'POST':
-            mode=request.session['mode'] 
-            if mode == "single":
+            #録画完了したことあるかのフラグ
+            if "p_flag" in request.session:
+                p_flag=request.session['p_flag']
+            else:
+                request.session['p_flag'] = 0
+        
+            mode=request.session['mode']
+            
+            if mode == "single" and p_flag == 0:
                 user = User(created_date ="")
                 user.save()
                 request.session['uid'] = user.id
@@ -36,11 +43,6 @@ class instrumentView(TemplateView):
         genre=request.session['genre']
         
         print(genre,mode)
-        #録画完了したことあるかのフラグ
-        if "p_flag" in request.session:
-            print(request.session['p_flag'])
-        else:
-            request.session['p_flag'] = 0
         
     
         return render(request,'app/Instrument.html')
