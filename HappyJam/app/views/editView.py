@@ -11,6 +11,7 @@ from django.http import HttpRequest
 from moviepy.editor import VideoFileClip
 from django.http import HttpResponse
 from django.views.generic import TemplateView
+from ..models import Single, Movie, Music, Instrument
 
 class  editView(TemplateView):
 
@@ -86,6 +87,16 @@ class  editView(TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
+        #動画データの取得
+        mode = request.session['mode']#モードを取得
+        if mode == "single":    #Singleモードの場合
+            u_id = request.session['uid'] #uidの取得
+            play_data = Single.objects.filter(uid=u_id, movie_id__isnull=False).values_list("movie_id__movie_path",flat = True)#uidに該当するSingleとMovieの内部結合テーブルからmovie_pathを取得するクエリテーブルを生成
+            
+            movie_data = list(play_data)#movie_pathが入ったリストを生成
+            
+            
+
         #定数の定義
         ##開始から何秒をサンプリングするか
         SAMPLE_RANGE = 60 
