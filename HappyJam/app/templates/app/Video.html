@@ -221,13 +221,6 @@
         canvasCtx.save();
         canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
 
-        //↓↓背景透過↓↓
-        //canvasCtx.drawImage(results.segmentationMask, 0, 0, canvasElement.width, canvasElement.height);
-        // Only overwrite existing pixels.
-        //canvasCtx.globalCompositeOperation = 'source-out';
-        //canvasCtx.fillStyle = '#00FF00';
-        //canvasCtx.fillRect(0, 0, canvasElement.width, canvasElement.height);
-
         //カメラ画像表示
         // Only overwrite missing pixels.
         canvasCtx.globalCompositeOperation = 'destination-atop';
