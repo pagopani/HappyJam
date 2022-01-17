@@ -94,6 +94,64 @@ class  editView(TemplateView):
             play_data = Single.objects.filter(uid=u_id, movie_id__isnull=False).values_list("movie_id__movie_path",flat = True)#uidに該当するSingleとMovieの内部結合テーブルからmovie_pathを取得するクエリテーブルを生成
             
             movie_data = list(play_data)#movie_pathが入ったリストを生成
+            for i in movie_data:           
+        # For webcam input:
+               BG_COLOR = (192, 192, 192) # gray
+               cap1 = cv2.VideoCapture("./media/"+i)
+# 幅と高さを取得p
+               width = int(cap1.get(cv2.CAP_PROP_FRAME_WIDTH))
+               height = int(cap1.get(cv2.CAP_PROP_FRAME_HEIGHT))
+               size = (width, height)
+#フレームレート取得
+               fps = cap1.get(cv2.CAP_PROP_FPS)
+
+#フォーマット指定
+               fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
+               writer = cv2.VideoWriter("./result/result.mp4", fmt, fps, size)
+#注）グレースケールの画像を出力する場合は第5引数に0を与える
+               with mp_selfie_segmentation.SelfieSegmentation(
+                 model_selection=1) as selfie_segmentation:
+                 bg_image = cv2.VideoCapture("C:\\Users\\r4a2\\Desktop\\sotuken\\HappyJam\\HappyJam\\app\\static\\app\\video\\sample2.mp4")
+               while cap1.isOpened():
+                  success, image = cap1.read()
+                  ret, frame = bg_image.read()
+                  frame = cv2.resize(frame, dsize=(640, 360))
+               if not success:
+                  print("Ignoring empty camera frame.")
+                  continue
+               image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
+	
+    #image2 = cv2.imread("gyazo/sample4.jpg")
+    #image2 = cap2.read()
+    #image2 = cv2.resize(image2, winSize)
+    # To improve performance, optionally mark the image as not writeable to
+    # pass by reference.
+               image.flags.writeable = False
+               results = selfie_segmentation.process(image)
+
+               image.flags.writeable = True
+               image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+
+               condition = np.stack(
+               (results.segmentation_mask,) * 3, axis=-1) > 0.1
+	  
+               if bg_image is None:
+                 bg_image = np.zeros(image.shape, dtype=np.uint8)
+                 bg_image[:] = BG_COLOR
+               output_image = np.where(condition, image, frame)
+	
+	
+               cv2.imshow('MediaPipe Selfie Segmentation', output_image)
+               if cv2.waitKey(5) & 0xFF == 27:
+                break
+               writer.write(output_image)
+  
+    
+# 終了時処理
+            writer.release()
+            cap1.release()
+            cv2.destroyAllWindows()
+        #動画データの取得
             
             
 
