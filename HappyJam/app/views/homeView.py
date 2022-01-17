@@ -17,6 +17,7 @@ class homeView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         if request.method == 'POST':
+            request.session.flush()
             return render(request,'app/index.html')
 
 
