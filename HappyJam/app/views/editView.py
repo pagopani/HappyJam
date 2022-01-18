@@ -13,6 +13,7 @@ from django.views.generic import TemplateView
 from ..models import Single, Movie, Music, Instrument
 import mediapipe as mp
 import numpy as np
+import time
 import moviepy.editor as me
 mp_drawing = mp.solutions.drawing_utils
 mp_selfie_segmentation = mp.solutions.selfie_segmentation
@@ -118,10 +119,12 @@ class  editView(TemplateView):
                 while cap1.isOpened():
                   success, image = cap1.read()
                   ret, frame = bg_image.read()
-                  frame = cv2.resize(frame, dsize=(1280, 720))
+                  frame = cv2.resize(frame, dsize=(1136, 640))
                   if not success:
                      print("Ignoring empty camera frame.")
                      break
+
+
                   image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
 	
     #image2 = cv2.imread("gyazo/sample4.jpg")
@@ -142,10 +145,9 @@ class  editView(TemplateView):
                     bg_image = np.zeros(image.shape, dtype=np.uint8)
                     bg_image[:] = BG_COLOR
                   output_image = np.where(condition, image, frame)
-	
-	
-                  cv2.imshow('MediaPipe Selfie Segmentation', output_image)
-                  if cv2.waitKey(15) & 0xFF == 27:
+                  time.sleep(1/fps)
+                  cv2.imshow('frame',output_image)
+                  if cv2.waitKey(25) & 0xFF == 27:
                     break
                   writer.write(output_image)
   
@@ -155,8 +157,13 @@ class  editView(TemplateView):
                cap1.release()
                cv2.destroyAllWindows()
         #動画データの取得
-        clip = me.VideoFileClip('app/static/app/result/result.mp4').subclip()
-        clip.write_videofile('app/static/app/result/result.mp4')
+        #clip = me.VideoFileClip('app/static/app/result/result.mp4').subclip()
+        
+        #clip.write_videofile('app/static/app/result/result.mp4')
+        cap_file = cv2.VideoCapture('app/static/app/result/result.mp4')
+        cap_file.isOpened()
+        cap_file.read()
+
             
             
         """
