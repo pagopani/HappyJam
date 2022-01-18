@@ -32,7 +32,7 @@
                 </div>
             </main>
              {% load static %}
-            <video width="900" height="500" src="{% static 'app/movie/main.mp4' %}" controls></video>
+            <video preload="none" width="1280" height="720" src="{% static 'app/result/result.mp4' %}" controls></video>
 
             <div class="sub">
                 <form method="POST" action="{% url 'home' %}">

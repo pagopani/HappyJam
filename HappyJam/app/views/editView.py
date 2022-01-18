@@ -13,6 +13,7 @@ from django.views.generic import TemplateView
 from ..models import Single, Movie, Music, Instrument
 import mediapipe as mp
 import numpy as np
+import moviepy.editor as me
 mp_drawing = mp.solutions.drawing_utils
 mp_selfie_segmentation = mp.solutions.selfie_segmentation
 
@@ -109,15 +110,15 @@ class  editView(TemplateView):
                fps = cap1.get(cv2.CAP_PROP_FPS)
 #フォーマット指定
                fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
-               writer = cv2.VideoWriter("./result/result.mp4", fmt, fps, size)
+               writer = cv2.VideoWriter("app/static/app/result/result.mp4", fmt, fps, size)
 #注）グレースケールの画像を出力する場合は第5引数に0を与える
                with mp_selfie_segmentation.SelfieSegmentation( 
-                   model_selection=1) as selfie_segmentation:
-                  bg_image = cv2.VideoCapture("C:\\Users\\r4a2\\Desktop\\sotuken\\HappyJam\\HappyJam\\app\\static\\app\\movie\\haikei.mp4")
-               while cap1.isOpened():
+                 model_selection=1) as selfie_segmentation:
+                bg_image = cv2.VideoCapture("C:\\Users\\r4a2\\Desktop\\sotuken\\HappyJam\\HappyJam\\app\\static\\app\\movie\\haikei.mp4")
+                while cap1.isOpened():
                   success, image = cap1.read()
                   ret, frame = bg_image.read()
-                  frame = cv2.resize(frame, dsize=(640, 360))
+                  frame = cv2.resize(frame, dsize=(1280, 720))
                   if not success:
                      print("Ignoring empty camera frame.")
                      break
@@ -144,25 +145,28 @@ class  editView(TemplateView):
 	
 	
                   cv2.imshow('MediaPipe Selfie Segmentation', output_image)
-                  if cv2.waitKey(5) & 0xFF == 27:
+                  if cv2.waitKey(15) & 0xFF == 27:
                     break
                   writer.write(output_image)
   
     
 # 終了時処理
-            writer.release()
-            cap1.release()
-            cv2.destroyAllWindows()
+               writer.release()
+               cap1.release()
+               cv2.destroyAllWindows()
         #動画データの取得
+        clip = me.VideoFileClip('app/static/app/result/result.mp4').subclip()
+        clip.write_videofile('app/static/app/result/result.mp4')
             
             
-
+        """
         #定数の定義
         ##開始から何秒をサンプリングするか
         SAMPLE_RANGE = 60 
         # 映像と音声を結合して保存
         clip = mp.VideoFileClip('app/static/app/movie/movie_out.mp4').subclip()
         clip.write_videofile('app/static/app/movie/main.mp4', audio='app/static/app/music/rock/rock.mp3')
+        """
 
         return render(request,'app/Preview.html')
 
