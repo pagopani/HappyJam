@@ -3,8 +3,7 @@ Definition of views.
 """
 import sys
 import os
-import numpy as np
-import moviepy.editor as mp
+import cv2
 from datetime import datetime
 from django.shortcuts import render
 from django.http import HttpRequest
@@ -12,6 +11,10 @@ from moviepy.editor import VideoFileClip
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 from ..models import Single, Movie, Music, Instrument
+import mediapipe as mp
+import numpy as np
+mp_drawing = mp.solutions.drawing_utils
+mp_selfie_segmentation = mp.solutions.selfie_segmentation
 
 class  editView(TemplateView):
 
@@ -104,47 +107,46 @@ class  editView(TemplateView):
                size = (width, height)
 #フレームレート取得
                fps = cap1.get(cv2.CAP_PROP_FPS)
-
 #フォーマット指定
                fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
                writer = cv2.VideoWriter("./result/result.mp4", fmt, fps, size)
 #注）グレースケールの画像を出力する場合は第5引数に0を与える
-               with mp_selfie_segmentation.SelfieSegmentation(
-                 model_selection=1) as selfie_segmentation:
-                 bg_image = cv2.VideoCapture("C:\\Users\\r4a2\\Desktop\\sotuken\\HappyJam\\HappyJam\\app\\static\\app\\video\\sample2.mp4")
+               with mp_selfie_segmentation.SelfieSegmentation( 
+                   model_selection=1) as selfie_segmentation:
+                  bg_image = cv2.VideoCapture("C:\\Users\\r4a2\\Desktop\\sotuken\\HappyJam\\HappyJam\\app\\static\\app\\movie\\haikei.mp4")
                while cap1.isOpened():
                   success, image = cap1.read()
                   ret, frame = bg_image.read()
                   frame = cv2.resize(frame, dsize=(640, 360))
-               if not success:
-                  print("Ignoring empty camera frame.")
-                  continue
-               image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
+                  if not success:
+                     print("Ignoring empty camera frame.")
+                     break
+                  image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
 	
     #image2 = cv2.imread("gyazo/sample4.jpg")
     #image2 = cap2.read()
     #image2 = cv2.resize(image2, winSize)
     # To improve performance, optionally mark the image as not writeable to
     # pass by reference.
-               image.flags.writeable = False
-               results = selfie_segmentation.process(image)
+                  image.flags.writeable = False
+                  results = selfie_segmentation.process(image)
 
-               image.flags.writeable = True
-               image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+                  image.flags.writeable = True
+                  image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-               condition = np.stack(
-               (results.segmentation_mask,) * 3, axis=-1) > 0.1
+                  condition = np.stack(
+                     (results.segmentation_mask,) * 3, axis=-1) > 0.1
 	  
-               if bg_image is None:
-                 bg_image = np.zeros(image.shape, dtype=np.uint8)
-                 bg_image[:] = BG_COLOR
-               output_image = np.where(condition, image, frame)
+                  if bg_image is None:
+                    bg_image = np.zeros(image.shape, dtype=np.uint8)
+                    bg_image[:] = BG_COLOR
+                  output_image = np.where(condition, image, frame)
 	
 	
-               cv2.imshow('MediaPipe Selfie Segmentation', output_image)
-               if cv2.waitKey(5) & 0xFF == 27:
-                break
-               writer.write(output_image)
+                  cv2.imshow('MediaPipe Selfie Segmentation', output_image)
+                  if cv2.waitKey(5) & 0xFF == 27:
+                    break
+                  writer.write(output_image)
   
     
 # 終了時処理
@@ -161,6 +163,7 @@ class  editView(TemplateView):
         # 映像と音声を結合して保存
         clip = mp.VideoFileClip('app/static/app/movie/movie_out.mp4').subclip()
         clip.write_videofile('app/static/app/movie/main.mp4', audio='app/static/app/music/rock/rock.mp3')
+
         return render(request,'app/Preview.html')
 
 edit =editView.as_view()
