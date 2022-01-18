@@ -147,7 +147,7 @@
         });
 
         //ストリームをレコーダーに登録
-        const recorder = new MediaRecorder(mediaStream);
+        const recorder = new MediaRecorder(mediaStream,{type: 'video/webm'});
 
         const chunks = [];
         
@@ -164,7 +164,7 @@
         });
         //録画停止後の処理
         recorder.addEventListener('stop', () => {
-            blob= new Blob(chunks, {type: 'video/mp4'});　//動画貯める用
+            blob= new Blob(chunks, {type: 'video/webm'});　//動画貯める用
             console.log("recording_finish");
             console.log(chunks);
             console.log(blob);
