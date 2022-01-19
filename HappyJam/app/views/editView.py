@@ -15,6 +15,7 @@ import mediapipe as mp
 import numpy as np
 import time
 import moviepy.editor as me
+import ffmpeg
 mp_drawing = mp.solutions.drawing_utils
 mp_selfie_segmentation = mp.solutions.selfie_segmentation
 
@@ -102,7 +103,7 @@ class  editView(TemplateView):
             for i in movie_data:           
         # For webcam input:
                BG_COLOR = (192, 192, 192) # gray
-               cap1 = cv2.VideoCapture("C:\\Users\\r4a2\\Desktop\\sotuken\\HappyJam\\HappyJam\\media\\8\\jazz\\guitar.mp4")
+               cap1 = cv2.VideoCapture("./media/"+i)
 # 幅と高さを取得p
                width = int(cap1.get(cv2.CAP_PROP_FRAME_WIDTH))
                height = int(cap1.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -125,7 +126,7 @@ class  editView(TemplateView):
                      break
 
 
-                  image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
+                  image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 	
     #image2 = cv2.imread("gyazo/sample4.jpg")
     #image2 = cap2.read()
@@ -145,9 +146,8 @@ class  editView(TemplateView):
                     bg_image = np.zeros(image.shape, dtype=np.uint8)
                     bg_image[:] = BG_COLOR
                   output_image = np.where(condition, image, frame)
-                  time.sleep(1/fps)
                   cv2.imshow('frame',output_image)
-                  if cv2.waitKey(25) & 0xFF == 27:
+                  if cv2.waitKey(20) & 0xFF == 27:
                     break
                   writer.write(output_image)
   
@@ -155,25 +155,33 @@ class  editView(TemplateView):
 # 終了時処理
                writer.release()
                cap1.release()
+               #cap_file = cv2.VideoCapture("app/static/app/result/result.mp4")
+               #cap_file.open()
+               #cap_file.read()
                cv2.destroyAllWindows()
         #動画データの取得
-        #clip = me.VideoFileClip('app/static/app/result/result.mp4').subclip()
-        
+        #clip = me.VideoFileClip('app/static/app/result/result.mp4')
         #clip.write_videofile('app/static/app/result/result.mp4')
-        cap_file = cv2.VideoCapture('app/static/app/result/result.mp4')
-        cap_file.isOpened()
-        cap_file.read()
+       
+         #動画変換
+        stream = ffmpeg.input("app/static/app/result/result.mp4") 
+        stream = ffmpeg.output(stream, ("app/static/app/result/result2.mp4"),vcodec = 'libx264') 
+        ffmpeg.run(stream)
+
+        SAMPLE_RANGE = 20
+        clip = me.VideoFileClip("app/static/app/result/result2.mp4")
+        clip = clip.set_audio(me.AudioFileClip("media/66/pop/guitar.wav"))
+        clip.write_videofile('app/static/app/result/result3.mp4')
+
 
             
-            
-        """
+
         #定数の定義
         ##開始から何秒をサンプリングするか
-        SAMPLE_RANGE = 60 
+        
         # 映像と音声を結合して保存
-        clip = mp.VideoFileClip('app/static/app/movie/movie_out.mp4').subclip()
-        clip.write_videofile('app/static/app/movie/main.mp4', audio='app/static/app/music/rock/rock.mp3')
-        """
+        
+
 
         return render(request,'app/Preview.html')
 

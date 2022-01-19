@@ -17,9 +17,8 @@ class previewView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         print('POST')
-        cap_file = cv2.VideoCapture('app/static/app/result/result.mp4')
-        cap_file.isOpened()
-        cap_file.read()
+
+
         return render(request,'app/Preview.html')
 
    
