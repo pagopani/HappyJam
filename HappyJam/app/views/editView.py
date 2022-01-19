@@ -115,7 +115,7 @@ class  editView(TemplateView):
 #注）グレースケールの画像を出力する場合は第5引数に0を与える
                with mp_selfie_segmentation.SelfieSegmentation( 
                  model_selection=1) as selfie_segmentation:
-                bg_image = cv2.VideoCapture("C:\\Users\\r4a2\\Desktop\\sotuken\\HappyJam\\HappyJam\\app\\static\\app\\movie\\haikei.mp4")
+                bg_image = cv2.VideoCapture("./app/static/app/movie/haikei.mp4")
                 while cap1.isOpened():
                   success, image = cap1.read()
                   ret, frame = bg_image.read()
