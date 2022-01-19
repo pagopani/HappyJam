@@ -82,6 +82,14 @@
     //volume判定フラグ
     var v_flag = 0;
 
+    //演奏判定のフラグの判定の値決定
+    const inst = "{{request.session.inst}}";
+    if(inst == "drum"){
+        var p_flag = 3;
+    }else{
+        var p_flag = 1;
+    }   
+
     var tmp_point_history=[];//tfjs用
 
     //howler.js導入
@@ -259,7 +267,7 @@
 
     //演奏判定
     async function change_volume(flag){
-        if(flag==1){
+        if(flag==p_flag){
             if(v_flag==0){
                 v_flag=1;   //音鳴ってるかのフラグ
                 sound2.volume(0.6);  //音を出す
