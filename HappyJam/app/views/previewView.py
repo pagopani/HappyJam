@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpRequest
 from django.http import HttpResponse
 from django.views.generic import TemplateView
+import cv2
 class previewView(TemplateView):
 
 
@@ -16,6 +17,11 @@ class previewView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         print('POST')
+        cap_file = cv2.VideoCapture('app/static/app/result/result.mp4')
+        cap_file.isOpened()
+        cap_file.read()
         return render(request,'app/Preview.html')
+
+   
 
 Preview =previewView.as_view()

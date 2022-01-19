@@ -102,7 +102,7 @@ class  editView(TemplateView):
             for i in movie_data:           
         # For webcam input:
                BG_COLOR = (192, 192, 192) # gray
-               cap1 = cv2.VideoCapture("./media/"+i)
+               cap1 = cv2.VideoCapture("C:\\Users\\r4a2\\Desktop\\sotuken\\HappyJam\\HappyJam\\media\\8\\jazz\\guitar.mp4")
 # 幅と高さを取得p
                width = int(cap1.get(cv2.CAP_PROP_FRAME_WIDTH))
                height = int(cap1.get(cv2.CAP_PROP_FRAME_HEIGHT))

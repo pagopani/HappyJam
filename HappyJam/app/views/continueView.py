@@ -5,6 +5,7 @@ from django.views.generic import TemplateView
 from ..models import Movie, Single, Instrument,Music
 from django.core.files.storage import FileSystemStorage
 import ffmpeg
+import cv2
 
 
 class continueView(TemplateView):
