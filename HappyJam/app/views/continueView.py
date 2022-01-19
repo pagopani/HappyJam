@@ -5,8 +5,8 @@ from django.views.generic import TemplateView
 from ..models import Movie, Single, Instrument,Music
 from django.core.files.storage import FileSystemStorage
 import ffmpeg
-import cv2
-
+from mutagen.easyid3 import EasyID3
+import mutagen.id3
 
 class continueView(TemplateView):
     template_name = 'app/Continue.html'
@@ -30,6 +30,15 @@ class continueView(TemplateView):
                     movie = request.FILES['movie_record']
                     fileobject = FileSystemStorage()
                     fileobject.save((filename+".webm"),movie) #保存
+                    """try:
+                        tags = EasyID3(str("./media/"+filename+".mp4"))
+                    
+                    except mutagen.id3.ID3NoHeaderError:
+                        tags = mutagen.File(str("./media/"+filename+".mp4"), easy=True)
+                        tags.add_tags()
+                    
+                    tag["length"]=81000
+                    tags.save()"""
                     return HttpResponse("ajax is done")
 
             #動画変換
