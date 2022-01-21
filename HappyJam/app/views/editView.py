@@ -99,7 +99,7 @@ class  editView(TemplateView):
             u_id = request.session['uid'] #uidの取得
             play_data = Single.objects.filter(uid=u_id, movie_id__isnull=False).values_list("movie_id__movie_path",flat = True)#uidに該当するSingleとMovieの内部結合テーブルからmovie_pathを取得するクエリテーブルを生成 
             movie_data = list(play_data)#movie_pathが入ったリストを生成
-            play_data = Single.objects.filter(uid=u_id, movie_id__isnull=False).values("movie_id__music_id__music",flat = True)
+            play_data = Single.objects.filter(uid=u_id, movie_id__isnull=False).values_list("movie_id__music_id__music",flat = True)
             music_data = list(play_data)#music(曲のパス)が入ったリストを生成
             for i in movie_data:           
         # For webcam input:
