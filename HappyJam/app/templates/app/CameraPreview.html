@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/CameraPreview.css' %}" />
     <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
+
 </head>
 <body>
     <div id="loading-wrapper">
@@ -30,6 +31,11 @@
                 <div class="title">
                     <span>CameraPreview</span>
                 </div>
+                <div class="camera">
+  	                <!-- カメラ画像の入力 -->
+                    <video id="video"  width="1136px" height="640px"></video>
+                </div>
+                
             </main>
             <div class="sub">
                 
@@ -51,6 +57,18 @@
             </div>
         </div>
     </div>
+    <script>
+        const video = document.getElementById("video")
+        navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: false,
+        }).then(stream => {
+            video.srcObject = stream;
+            video.play()
+        }).catch(e => {
+          console.log(e)
+        })
+    </script>
     <script>
     const loader = document.getElementById('loading-wrapper');
         window.addEventListener('load', () => {
