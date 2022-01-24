@@ -88,7 +88,7 @@
     }else{
         var p_flag = 1;
         //tfjs_modelロード
-        var model = await tf.loadLayersModel('{% static 'app/tfjs_model/model.json' %}');
+        var model = await tf.loadLayersModel('{% static 'app/tfjs_model/guitar/model.json' %}');
     }   
 
     var tmp_point_history=[];//tfjs用
