@@ -30,13 +30,13 @@
             <main>
                 <div class="title">
                     <span>CameraPreview</span>
-                </div>
+                </div>                
+            </main>
                 <div class="camera">
   	                <!-- カメラ画像の入力 -->
                     <video id="video"  width="1136px" height="640px"></video>
                 </div>
-                
-            </main>
+
             <div class="sub">
                 
 
@@ -66,7 +66,7 @@
             video.srcObject = stream;
             video.play()
         }).catch(e => {
-          console.log(e)
+          alert("カメラを接続してください。")
         })
     </script>
     <script>
