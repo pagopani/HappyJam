@@ -76,18 +76,19 @@
 
     var blob;
 
-    //tfjs_modelロード
-    const model = await tf.loadLayersModel('{% static 'app/tfjs_model/model.json' %}');
-
     //volume判定フラグ
     var v_flag = 0;
 
-    //演奏判定のフラグの判定の値決定
+    //ロードするモデル＆演奏判定のフラグの判定の値決定
     const inst = "{{request.session.inst}}";
     if(inst == "drum"){
         var p_flag = 3;
+        //tfjs_modelロード
+        var model = await tf.loadLayersModel('{% static 'app/tfjs_model/model.json' %}');
     }else{
         var p_flag = 1;
+        //tfjs_modelロード
+        var model = await tf.loadLayersModel('{% static 'app/tfjs_model/model.json' %}');
     }   
 
     var tmp_point_history=[];//tfjs用
