@@ -101,7 +101,8 @@ class  editView(TemplateView):
             movie_data = list(play_data)#movie_pathが入ったリストを生成
             play_data = Single.objects.filter(uid=u_id, movie_id__isnull=False).values_list("movie_id__music_id__music",flat = True)
             music_data = list(play_data)#music(曲のパス)が入ったリストを生成
-            for i in movie_data:           
+            genre = request.session['genre']
+            for i in movie_data:
         # For webcam input:
                BG_COLOR = (192, 192, 192) # gray
                cap1 = cv2.VideoCapture("./media/"+i)
@@ -117,7 +118,7 @@ class  editView(TemplateView):
 #注）グレースケールの画像を出力する場合は第5引数に0を与える
                with mp_selfie_segmentation.SelfieSegmentation( 
                  model_selection=1) as selfie_segmentation:
-                bg_image = cv2.VideoCapture("./app/static/app/movie/haikei.mp4")
+                bg_image = cv2.VideoCapture("./app/static/app/movie/"+genre+".mp4")
                 while cap1.isOpened():
                   success, image = cap1.read()
                   ret, frame = bg_image.read()
@@ -168,10 +169,10 @@ class  editView(TemplateView):
         stream = ffmpeg.input("app/static/app/result/result.mp4") 
         stream = ffmpeg.output(stream, ("app/static/app/result/result2.mp4"),vcodec = 'libx264') 
         ffmpeg.run(stream)
-
+        
         SAMPLE_RANGE = 20
         clip = me.VideoFileClip("app/static/app/result/result2.mp4")
-        clip = clip.set_audio(me.AudioFileClip("media/66/pop/guitar.wav"))
+        clip = clip.set_audio(me.AudioFileClip("media//jazz/guitar.wav"))
         clip.write_videofile('app/static/app/result/result3.mp4')
 
 
