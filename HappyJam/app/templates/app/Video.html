@@ -99,7 +99,7 @@
 
         //オプション
         preload: true,   // 事前ロード
-        volume: 0.4,     // 音量(0.0〜1.0の範囲で指定)
+        volume: 0.3,     // 音量(0.0〜1.0の範囲で指定)
         loop: false,     // ループ再生するか
         autoplay: false, // 自動再生するか
 
@@ -271,12 +271,12 @@
         if(flag==p_flag){
             if(v_flag==0){
                 v_flag=1;   //音鳴ってるかのフラグ
-                sound2.volume(0.6);  //音を出す
+                sound2.volume(0.7);  //音を出す
             }
         }else{
             if(v_flag==1){
                 v_flag=0;
-                sound2.fade(0.6,0.0,100);  //volumeを1秒で0.5から0.0にフェードアウト
+                sound2.fade(0.7,0.0,100);  //volumeを1秒で0.5から0.0にフェードアウト
             }
         }
     }
