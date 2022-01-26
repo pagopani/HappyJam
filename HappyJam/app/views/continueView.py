@@ -42,10 +42,10 @@ class continueView(TemplateView):
                     return HttpResponse("ajax is done")
 
             #動画変換
-            stream = ffmpeg.input("./media/"+filename+".webm") 
-            stream = ffmpeg.output(stream, ("./media/"+filename+".mp4")) 
+            stream = ffmpeg.input(("./media/"+filename+".webm")) 
+            stream = ffmpeg.output(stream, ("./media/"+filename+".mp4"),vsync=0) 
             ffmpeg.run(stream)
-                    
+            
             #音楽抽出
             stream = ffmpeg.input("./media/"+filename+".mp4") 
             stream = ffmpeg.output(stream, ("./media/"+filename+".wav")) 
