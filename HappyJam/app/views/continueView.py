@@ -62,6 +62,8 @@ class continueView(TemplateView):
             s_data = Single.objects.select_related('instrument_id').get(uid=u_id,instrument_id=instrument)
             s_data.movie_id = m_data
             s_data.save()
+
+            request.session['p_flag'] = 1
             
             return render(request,'app/Continue.html')
 
