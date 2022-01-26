@@ -82,9 +82,9 @@
     //ロードするモデル＆演奏判定のフラグの判定の値決定
     const inst = "{{request.session.inst}}";
     if(inst == "drum"){
-        var p_flag = 3;
+        var p_flag = 1;
         //tfjs_modelロード
-        var model = await tf.loadLayersModel('{% static 'app/tfjs_model/model.json' %}');
+        var model = await tf.loadLayersModel('{% static 'app/tfjs_model/drum/model.json' %}');
     }else{
         var p_flag = 1;
         //tfjs_modelロード
