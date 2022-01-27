@@ -148,9 +148,6 @@ class  editView(TemplateView):
                     bg_image = np.zeros(image.shape, dtype=np.uint8)
                     bg_image[:] = BG_COLOR
                   output_image = np.where(condition, image, frame)
-                  cv2.imshow('frame',output_image)
-                  if cv2.waitKey(20) & 0xFF == 27:
-                    break
                   writer.write(output_image)
   
     
