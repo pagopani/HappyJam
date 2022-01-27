@@ -43,7 +43,7 @@ class continueView(TemplateView):
 
             #動画変換
             stream = ffmpeg.input(("./media/"+filename+".webm")) 
-            stream = ffmpeg.output(stream, ("./media/"+filename+".mp4"),vsync=0) 
+            stream = ffmpeg.output(stream, ("./media/"+filename+".mp4")) 
             ffmpeg.run(stream)
             
             #音楽抽出
