@@ -107,9 +107,18 @@ class  editView(TemplateView):
                #cap_file.read()
                cv2.destroyAllWindows()
         
-        if cnt > 0:
+        if cnt == 2:
             # 2つの画像を横に連結する関数
-            def image_hcombine(im_info1, im_info2, im_info3):
+            def image_hcombine(*im_info):
+                img1 = im_info1[0]                       # 1つ目の画像
+                img2 = im_info2[0]                       # 2つ目の画像
+                
+                img = cv2.hconcat([img1, img2, img3])          # 2つの画像を横方向に連結
+                return img
+
+        elif cnt == 3:
+            # 2つの画像を横に連結する関数
+            def image_hcombine(*im_info):
                 img1 = im_info1[0]                       # 1つ目の画像
                 img2 = im_info2[0]                       # 2つ目の画像
                 img3 = im_info3[0]                       # 3つ目の画像
@@ -120,7 +129,7 @@ class  editView(TemplateView):
             def m_space_hcombine(movie1, movie2, path_out, scale_factor):
                 path1 = movie1[0]                                       # 1つ目の動画のパス
                 path2 = movie2[0]                                       # 2つ目の動画のパス
-                path2 = movie3[0]                                       # 3つ目の動画のパス
+                path3 = movie3[0]                                       # 3つ目の動画のパス
   
                 color_flag1 = movie1[1]                                 # 1つ目の動画がカラーかどうか
                 color_flag2 = movie2[1]                                 # 2つ目の動画がカラーかどうか
