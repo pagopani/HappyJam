@@ -54,8 +54,15 @@ class  editView(TemplateView):
 #フレームレート取得
                fps = cap1.get(cv2.CAP_PROP_FPS)
 #フォーマット指定
-               fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
-               writer = cv2.VideoWriter("app/static/app/result/result.mp4", fmt, fps, size)
+               #フォーマット指定
+               if len(movie_data) ==1:
+                  fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
+                  writer = cv2.VideoWriter("app/static/app/result/"+str(u_id)+".mp4", fmt, fps, size)
+               else:
+                    fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
+                    writer = cv2.VideoWriter("app/static/app/result/"+str(u_id)+inst+".mp4", fmt, fps, size)
+                    inst_list.append("app/static/app/result/"+str(u_id)+inst+".mp4")
+                    cnt = cnt + 1
 #注）グレースケールの画像を出力する場合は第5引数に0を与える
                with mp_selfie_segmentation.SelfieSegmentation( 
                  model_selection=1) as selfie_segmentation:
