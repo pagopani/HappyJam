@@ -32,7 +32,7 @@
                 </div>
             </main>
              {% load static %}
-            <video Autoplay width="1136" height="640" src="{% static 'app/result/result3.mp4' %}" controls></video>
+            <video Autoplay width="1136" height="640" src="" id="video" controls></video>
 
             <div class="sub">
                 <form method="POST" action="{% url 'home' %}">
@@ -64,6 +64,17 @@
         setTimeout(loaderDisplay, 2000 + ms);
         });
         
+    </script>
+    <script>
+    window.onload = function(){
+        "use strict";
+        var video = document.getElementById('video');
+        
+        var movie_url = "/static/app/result/"+String({{request.session.uid}})+"{{request.session.genre}}result.mp4";
+        video.src = movie_url;
+        video.load();
+        video.play();
+    };
     </script>
 
 </body>
