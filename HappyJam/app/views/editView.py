@@ -22,70 +22,7 @@ mp_selfie_segmentation = mp.solutions.selfie_segmentation
 class  editView(TemplateView):
 
     template_name = 'app/Preview.html'
-    # 2つの画像を横に連結する関数
-    """
-    def image_hcombine(im_info1, im_info2):
-        img1 = im_info1[0]                       # 1つ目の画像
-        img2 = im_info2[0]                       # 2つ目の画像
-    
-        img = cv2.hconcat([img1, img2])          # 2つの画像を横方向に連結
-        return img
-    # 動画を空間方向に連結させる関数
-    def m_space_hcombine(movie1, movie2, path_out, scale_factor):
-        path1 = movie1[0]                                       # 1つ目の動画のパス
-        path2 = movie2[0]                                       # 2つ目の動画のパス
-  
-        color_flag1 = movie1[1]                                 # 1つ目の動画がカラーかどうか
-        color_flag2 = movie2[1]                                 # 2つ目の動画がカラーかどうか
- 
-    # 2つの動画の読み込み
-        movie1_obj = cv2.VideoCapture(path1)
-        movie2_obj = cv2.VideoCapture(path2)
-    # ファイルからフレームを1枚ずつ取得して動画処理後に保存する
-        i = 0                                                   # 第1ループ判定用指標
-        while True:
-            ret1, frame1 = movie1_obj.read()                    # 1つ目の動画のフレームを取得
-            ret2, frame2 = movie2_obj.read()                    # 2つ目の動画のフレームを取得
-        
-            check = ret1 and ret2                               # 2つのフレームが共に取得できた時だけTrue（論理演算）
-            if check == True:
-                im_info1 = [frame1, color_flag1]                # 画像連結関数への引数1
-                im_info2 = [frame2, color_flag2]                # 画像連結関数への引数2
-                frame_mix = image_hcombine(im_info1, im_info2)  # 画像連結関数の実行
-
-                if i == 0:
-                    # 動画ファイル保存用の設定
-                    fps = int(movie1_obj.get(cv2.CAP_PROP_FPS))                 # 元動画のFPSを取得
-                    fps_new = int(fps * scale_factor)
-
-                    frame_size = frame_mix.shape[:3]                            # 結合したフレームのサイズを得る
-                    h = frame_size[0]                                           # フレームの高さサイズを取得
-                    w = frame_size[1]                                           # フレームの横サイズを取得
-                    fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')         # 動画保存時のfourcc設定（mp4用）
-                    video = cv2.VideoWriter(path_out, fourcc, fps_new, (w, h))  # 保存動画の仕様
-                    i = i + 1                                                   # 初期ループ判定用指標を増分
-                else:
-                    pass
-                video.write(frame_mix)                                          # 動画を保存する
-            else:
-                break
-
-    # 動画オブジェクトの解放
-        movie1_obj.release()
-        movie2_obj.release()
-        return
-
-# ここからメイン実行文
-    movie1 = ['app/static/app/movie/demo1.mp4', True]     # 元動画のパス1, カラーはTrue
-    movie2 = ['app/static/app/movie/demo2.mp4', True]    # 元動画のパス2, 白黒はFalse
-    path_out = 'app/static/app/movie/movie_out.mp4'        # 保存する動画のパス
-    scale_factor = 1                  # FPSにかけるスケールファクター
-
-# 複数動画を連結させる関数を実行
-        m_space_hcombine(movie1, movie2, path_out, scale_factor)
-    """
-
-
+   
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -93,6 +30,8 @@ class  editView(TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
+        inst_list = list()
+        cnt = 0
         #動画データの取得
         mode = request.session['mode']#モードを取得
         if mode == "single":    #Singleモードの場合
@@ -102,6 +41,8 @@ class  editView(TemplateView):
             play_data = Single.objects.filter(uid=u_id, movie_id__isnull=False).values_list("movie_id__music_id__music",flat = True)
             music_data = list(play_data)#music(曲のパス)が入ったリストを生成
             genre = request.session['genre']
+            inst = request.session['inst']
+            
             for i in movie_data:
         # For webcam input:
                BG_COLOR = (192, 192, 192) # gray
@@ -158,22 +99,92 @@ class  editView(TemplateView):
                #cap_file.open()
                #cap_file.read()
                cv2.destroyAllWindows()
+        
+        if cnt > 0:
+            # 2つの画像を横に連結する関数
+            def image_hcombine(im_info1, im_info2, im_info3):
+                img1 = im_info1[0]                       # 1つ目の画像
+                img2 = im_info2[0]                       # 2つ目の画像
+                img3 = im_info3[0]                       # 3つ目の画像
+
+                img = cv2.hconcat([img1, img2, img3])          # 2つの画像を横方向に連結
+                return img
+            #動画を空間方向に連結させる関数
+            def m_space_hcombine(movie1, movie2, path_out, scale_factor):
+                path1 = movie1[0]                                       # 1つ目の動画のパス
+                path2 = movie2[0]                                       # 2つ目の動画のパス
+                path2 = movie3[0]                                       # 3つ目の動画のパス
+  
+                color_flag1 = movie1[1]                                 # 1つ目の動画がカラーかどうか
+                color_flag2 = movie2[1]                                 # 2つ目の動画がカラーかどうか
+                color_flag3 = movie3[1]                                 # 3つ目の動画がカラーかどうか
+ 
+            #3つの動画の読み込み
+                movie1_obj = cv2.VideoCapture(path1)
+                movie2_obj = cv2.VideoCapture(path2)
+                movie3_obj = cv2.VideoCapture(path3)
+            # ファイルからフレームを1枚ずつ取得して動画処理後に保存する
+                i = 0                                                   # 第1ループ判定用指標
+                while True:
+                    ret1, frame1 = movie1_obj.read()                    # 1つ目の動画のフレームを取得
+                    ret2, frame2 = movie2_obj.read()                    # 2つ目の動画のフレームを取得
+                    ret3, frame3 = movie3_obj.read()                    # 3つ目の動画のフレームを取得
+        
+                    check = ret1 and ret2 and ret3                               # 3つのフレームが共に取得できた時だけTrue（論理演算）
+                    
+                    if check == True:
+                        im_info1 = [frame1, color_flag1]                # 画像連結関数への引数1
+                        im_info2 = [frame2, color_flag2]                # 画像連結関数への引数2
+                        im_info3 = [frame3, color_flag3]                # 画像連結関数への引数3
+                        frame_mix = image_hcombine(im_info1, im_info2, im_info3)  # 画像連結関数の実行
+
+                        if i == 0:
+                            # 動画ファイル保存用の設定
+                            fps = int(movie1_obj.get(cv2.CAP_PROP_FPS))                 # 元動画のFPSを取得
+                            fps_new = int(fps * scale_factor)
+
+                            frame_size = frame_mix.shape[:3]                            # 結合したフレームのサイズを得る
+                            h = frame_size[0]                                           # フレームの高さサイズを取得
+                            w = frame_size[1]                                           # フレームの横サイズを取得
+                            fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')         # 動画保存時のfourcc設定（mp4用）
+                            video = cv2.VideoWriter(path_out, fourcc, fps_new, (w, h))  # 保存動画の仕様
+                            i = i + 1                                                   # 初期ループ判定用指標を増分
+                        else:
+                            pass
+                            video.write(frame_mix)                                          # 動画を保存する
+                    else:
+                        break
+
+                # 動画オブジェクトの解放
+                movie1_obj.release()
+                movie2_obj.release()
+                movie3_obj.release()
+                return
+
+            #ここからメイン実行文
+            movie1 = [inst_list[0], True]    # 元動画のパス1, カラーはTrue
+            movie2 = [inst_list[1], True]    # 元動画のパス2, カラーはTrue
+            movie3 = [inst_list[2], True]    # 元動画のパス3, カラーはTrue
+            path_out = "app/static/app/result/"+str(u_id)+".mp4"        # 保存する動画のパス
+            scale_factor = 1                  # FPSにかけるスケールファクター
+
+            #複数動画を連結させる関数を実行
+            m_space_hcombine(movie1, movie2, path_out, scale_factor)
+
         #動画データの取得
         #clip = me.VideoFileClip('app/static/app/result/result.mp4')
         #clip.write_videofile('app/static/app/result/result.mp4')
-       
-         #動画変換
-        stream = ffmpeg.input("app/static/app/result/result.mp4") 
-        stream = ffmpeg.output(stream, ("app/static/app/result/result2.mp4"),vcodec = 'libx264') 
+
+        #動画変換
+        stream = ffmpeg.input("app/static/app/result/"+str(u_id)+".mp4") 
+        stream = ffmpeg.output(stream, ("app/static/app/result/"+str(u_id)+genre+".mp4"),vcodec = 'libx264') 
         ffmpeg.run(stream)
         
         SAMPLE_RANGE = 20
-        clip = me.VideoFileClip("app/static/app/result/result2.mp4")
-        clip = clip.set_audio(me.AudioFileClip("media//jazz/guitar.wav"))
-        clip.write_videofile('app/static/app/result/result3.mp4')
+        clip = me.VideoFileClip("app/static/app/result/"+str(u_id)+genre+".mp4")
+        clip = clip.set_audio(me.AudioFileClip("media/" + i))
+        clip.write_videofile('app/static/app/result/result.mp4')
 
-
-            
 
         #定数の定義
         ##開始から何秒をサンプリングするか
