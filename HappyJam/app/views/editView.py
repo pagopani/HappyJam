@@ -108,7 +108,7 @@ class  editView(TemplateView):
         
         if cnt == 2:
             # 2つの画像を横に連結する関数
-            def image_hcombine(*im_info):
+            def image_hcombine(im_info1,im_info2):
                 img1 = im_info1[0]                       # 1つ目の画像
                 img2 = im_info2[0]                       # 2つ目の画像
                 
@@ -171,7 +171,7 @@ class  editView(TemplateView):
 
         elif cnt == 3:
             # 3つの画像を横に連結する関数
-            def image_hcombine(*im_info):
+            def image_hcombine(im_info1,im_info2,im_info3):
                 img1 = im_info1[0]                       # 1つ目の画像
                 img2 = im_info2[0]                       # 2つ目の画像
                 img3 = im_info3[0]                       # 3つ目の画像
