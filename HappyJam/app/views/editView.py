@@ -253,22 +253,23 @@ class  editView(TemplateView):
         if cnt > 0:
             music_list = []
             for i in music_data:
-                music_list[i] = AudioSegment.from_file("media/" + i)
+                music_list = AudioSegment.from_file("media/" + i)
 
-            output = music_list[i].overlay(music_list[i + 1], position=0)
+            output = music_list[0].overlay(music_list[1], position=0)
             # save the result
             output.export('app/static/app/result/result.mp3', format="mp3")
             if cnt ==3:
                 sound =  'app/static/app/result/result.mp3'
-                output = sound.overlay(music_list[i + 2], position=0)
+                output = sound.overlay(music_list[2], position=0)
                 # save the result
-                output.export('app/static/app/result/result.mp3', format="mp3")
+                output.export('app/static/app/result/result.mp3', format="mp3", parameters = ["-y"])
 
-            
-        #SAMPLE_RANGE = 20
-        clip = me.VideoFileClip("app/static/app/result/"+str(u_id)+genre+".mp4")
-        clip = clip.set_audio(me.AudioFileClip('app/static/app/result/result.mp3'))
-        clip.write_videofile('app/static/app/result/result.mp4')
+            #SAMPLE_RANGE = 20
+            clip = me.VideoFileClip("app/static/app/result/"+str(u_id)+genre+".mp4")
+            clip = clip.set_audio(me.AudioFileClip('app/static/app/result/result.mp3'))
+            clip.write_videofile('app/static/app/result/result.mp4')
+        
+        else:
 
 
         #定数の定義
