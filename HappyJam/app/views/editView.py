@@ -40,6 +40,8 @@ class  editView(TemplateView):
             movie_data = list(play_data)#movie_pathが入ったリストを生成
             play_data = Single.objects.filter(uid=u_id, movie_id__isnull=False).values_list("movie_id__music_id__music",flat = True)
             music_data = list(play_data)#music(曲のパス)が入ったリストを生成
+            play_data = Single.objects.filter(uid=u_id, instrument_id__isnull=False).values_list("instrument_id__instrument_id__instrument_name",flat = True)
+            instrument_data = list(play_data)
             genre = request.session['genre']
             inst = request.session['inst']
             
@@ -60,7 +62,7 @@ class  editView(TemplateView):
                   writer = cv2.VideoWriter("app/static/app/result/"+str(u_id)+".mp4", fmt, fps, size)
                else:
                     fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
-                    writer = cv2.VideoWriter("app/static/app/result/"+str(u_id)+inst+".mp4", fmt, fps, size)
+                    writer = cv2.VideoWriter("app/static/app/result/"+str(u_id)+instrument_data[cnt]+".mp4", fmt, fps, size)
                     cnt = cnt + 1
 #注）グレースケールの画像を出力する場合は第5引数に0を与える
                with mp_selfie_segmentation.SelfieSegmentation( 
