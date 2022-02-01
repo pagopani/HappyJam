@@ -40,7 +40,7 @@ class  editView(TemplateView):
             movie_data = list(play_data)#movie_pathが入ったリストを生成
             play_data = Single.objects.filter(uid=u_id, movie_id__isnull=False).values_list("movie_id__music_id__music",flat = True)
             music_data = list(play_data)#music(曲のパス)が入ったリストを生成
-            play_data = Single.objects.filter(uid=u_id, instrument_id__isnull=False).values_list("instrument_id__instrument_id__instrument_name",flat = True)
+            play_data = Single.objects.filter(uid=u_id, instrument_id__isnull=False).values_list("instrument_id__instrument_name",flat = True)
             instrument_data = list(play_data)
             genre = request.session['genre']
             inst = request.session['inst']
