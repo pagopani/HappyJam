@@ -249,8 +249,6 @@ class  editView(TemplateView):
 
         #動画変換
         stream = ffmpeg.input("app/static/app/result/"+str(u_id)+".mp4") 
-        stream = ffmpeg.output(stream, ("app/static/app/result/"+str(u_id)+genre+".mp4"),vcodec = 'libx264') 
-        ffmpeg.run(stream)
 
         #音楽ミックス
         if cnt > 0:
