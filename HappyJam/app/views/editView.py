@@ -32,6 +32,7 @@ class  editView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         cnt = 0
+        tmp_movie=[]
         #動画データの取得
         mode = request.session['mode']#モードを取得
         if mode == "single":    #Singleモードの場合
@@ -63,6 +64,7 @@ class  editView(TemplateView):
                else:
                     fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
                     writer = cv2.VideoWriter("app/static/app/result/"+str(u_id)+instrument_data[cnt]+".mp4", fmt, fps, size)
+                    tmp_movie.append("app/static/app/result/"+str(u_id)+instrument_data[cnt]+".mp4")
                     cnt = cnt + 1
 #注）グレースケールの画像を出力する場合は第5引数に0を与える
                with mp_selfie_segmentation.SelfieSegmentation( 
@@ -162,8 +164,8 @@ class  editView(TemplateView):
                 movie2_obj.release()
                 return
             #ここからメイン実行文
-            movie1 = ["media/"+ movie_data[0], True]    # 元動画のパス1, カラーはTrue
-            movie2 = ["media/"+ movie_data[1], True]    # 元動画のパス2, カラーはTrue
+            movie1 = [tmp_movie[0], True]    # 元動画のパス1, カラーはTrue
+            movie2 = [tmp_movie[1], True]    # 元動画のパス2, カラーはTrue
             path_out = "app/static/app/result/"+str(u_id)+".mp4"        # 保存する動画のパス
             scale_factor = 1                  # FPSにかけるスケールファクター
 
@@ -232,9 +234,9 @@ class  editView(TemplateView):
                 return
 
             #ここからメイン実行文
-            movie1 = ["media/"+ movie_data[0], True]    # 元動画のパス1, カラーはTrue
-            movie2 = ["media/"+ movie_data[1], True]    # 元動画のパス2, カラーはTrue
-            movie3 = ["media/"+ movie_data[2], True]    # 元動画のパス3, カラーはTrue
+            movie1 = [tmp_movie[0], True]    # 元動画のパス1, カラーはTrue
+            movie2 = [tmp_movie[1], True]    # 元動画のパス2, カラーはTrue
+            movie3 = [tmp_movie[2], True]    # 元動画のパス3, カラーはTrue
             path_out = "app/static/app/result/"+str(u_id)+".mp4"        # 保存する動画のパス
             scale_factor = 1                  # FPSにかけるスケールファクター
 
@@ -254,20 +256,20 @@ class  editView(TemplateView):
         if cnt > 0:
             music_list = []
             for i in music_data:
-                music_list = AudioSegment.from_file("media/" + i)
+                music_list.append(AudioSegment.from_file("media/" + i))
 
             output = music_list[0].overlay(music_list[1], position=0)
             # save the result
-            output.export('app/static/app/result/result.mp3', format="mp3")
+            output.export('app/static/app/result/result.wav', format="wav")
             if cnt ==3:
-                sound =  'app/static/app/result/result.mp3'
+                sound =   AudioSegment.from_file('app/static/app/result/result.wav')
                 output = sound.overlay(music_list[2], position=0)
                 # save the result
-                output.export('app/static/app/result/result.mp3', format="mp3", parameters = ["-y"])
+                output.export('app/static/app/result/result.wav', format="wav", parameters = ["-y"])
 
             #SAMPLE_RANGE = 20
             clip = me.VideoFileClip("app/static/app/result/"+str(u_id)+genre+".mp4")
-            clip = clip.set_audio(me.AudioFileClip('app/static/app/result/result.mp3'))
+            clip = clip.set_audio(me.AudioFileClip('app/static/app/result/result.wav'))
             clip.write_videofile('app/static/app/result/result.mp4')
         
         else:
