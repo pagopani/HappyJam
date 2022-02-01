@@ -266,13 +266,13 @@ class  editView(TemplateView):
                 output.export('app/static/app/result/result.wav', format="wav", parameters = ["-y"])
 
             #SAMPLE_RANGE = 20
-            clip = me.VideoFileClip("app/static/app/result/"+str(u_id)+genre+".mp4")
+            clip = me.VideoFileClip("app/static/app/result/"+str(u_id)+".mp4")
             clip = clip.set_audio(me.AudioFileClip('app/static/app/result/result.wav'))
             clip.write_videofile('app/static/app/result/'+str(u_id)+genre+'result.mp4')
         
         else:
             #SAMPLE_RANGE = 20
-            clip = me.VideoFileClip("app/static/app/result/"+str(u_id)+genre+".mp4")
+            clip = me.VideoFileClip("app/static/app/result/"+str(u_id)+".mp4")
             clip = clip.set_audio(me.AudioFileClip("media/" + music_data[0]))
             clip.write_videofile('app/static/app/result/'+str(u_id)+genre+'result.mp4')
 
