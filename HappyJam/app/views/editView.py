@@ -158,11 +158,10 @@ class  editView(TemplateView):
                 # 動画オブジェクトの解放
                 movie1_obj.release()
                 movie2_obj.release()
-                movie3_obj.release()
                 return
             #ここからメイン実行文
-            movie1 = [inst_list[0], True]    # 元動画のパス1, カラーはTrue
-            movie2 = [inst_list[1], True]    # 元動画のパス2, カラーはTrue
+            movie1 = ["media/"+ movie_data[0], True]    # 元動画のパス1, カラーはTrue
+            movie2 = ["media/"+ movie_data[1], True]    # 元動画のパス2, カラーはTrue
             path_out = "app/static/app/result/"+str(u_id)+".mp4"        # 保存する動画のパス
             scale_factor = 1                  # FPSにかけるスケールファクター
 
@@ -231,9 +230,9 @@ class  editView(TemplateView):
                 return
 
             #ここからメイン実行文
-            movie1 = [inst_list[0], True]    # 元動画のパス1, カラーはTrue
-            movie2 = [inst_list[1], True]    # 元動画のパス2, カラーはTrue
-            movie3 = [inst_list[2], True]    # 元動画のパス3, カラーはTrue
+            movie1 = ["media/"+ movie_data[0], True]    # 元動画のパス1, カラーはTrue
+            movie2 = ["media/"+ movie_data[1], True]    # 元動画のパス2, カラーはTrue
+            movie3 = ["media/"+ movie_data[2], True]    # 元動画のパス3, カラーはTrue
             path_out = "app/static/app/result/"+str(u_id)+".mp4"        # 保存する動画のパス
             scale_factor = 1                  # FPSにかけるスケールファクター
 
@@ -272,15 +271,8 @@ class  editView(TemplateView):
         else:
             #SAMPLE_RANGE = 20
             clip = me.VideoFileClip("app/static/app/result/"+str(u_id)+genre+".mp4")
-            clip = clip.set_audio(me.AudioFileClip(music_data[0]))
+            clip = clip.set_audio(me.AudioFileClip("media/" + music_data[0]))
             clip.write_videofile('app/static/app/result/result.mp4')
-
-
-        #定数の定義
-        ##開始から何秒をサンプリングするか
-        
-        # 映像と音声を結合して保存
-        
 
 
         return render(request,'app/Preview.html')
