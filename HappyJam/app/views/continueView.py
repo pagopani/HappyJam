@@ -43,12 +43,12 @@ class continueView(TemplateView):
 
             #動画変換
             stream = ffmpeg.input(("./media/"+filename+".webm")) 
-            stream = ffmpeg.output(stream, ("./media/"+filename+".mp4")) 
+            stream = ffmpeg.overwrite_output(stream, ("./media/"+filename+".mp4")) 
             ffmpeg.run(stream)
             
             #音楽抽出
             stream = ffmpeg.input("./media/"+filename+".mp4") 
-            stream = ffmpeg.output(stream, ("./media/"+filename+".wav")) 
+            stream = ffmpeg.overwrite_output(stream, ("./media/"+filename+".wav")) 
             ffmpeg.run(stream)
 
             #Musicテーブルに登録&Movieテーブルも登録
