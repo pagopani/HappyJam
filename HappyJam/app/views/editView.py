@@ -109,8 +109,22 @@ class  editView(TemplateView):
                #cap_file.open()
                #cap_file.read()
                cv2.destroyAllWindows()
+
         
         if cnt == 2:
+
+            if cnt == 2:
+                video = (VideoFileClip(tmp_movie[0]).crop(x1=284,y1=0,x2=852,y2=640))
+                video.write_videofile("app/static/app/result/"+str(u_id)+"tri1.mp4",fps=29)
+                tmp_movie.append("app/static/app/result/"+str(u_id)+"tri1.mp4")
+                cnt = cnt + 1
+
+            if cnt == 3:
+                video = (VideoFileClip(tmp_movie[1]).crop(x1=284,y1=0,x2=852,y2=640))
+                video.write_videofile("app/static/app/result/"+str(u_id)+"tri2.mp4",fps=29)
+                tmp_movie.append("app/static/app/result/"+str(u_id)+"tri2.mp4")
+                cnt = cnt + 1
+
             # 2つの画像を横に連結する関数
             def image_hcombine(im_info1,im_info2):
                 img1 = im_info1[0]                       # 1つ目の画像
@@ -164,8 +178,8 @@ class  editView(TemplateView):
                 movie2_obj.release()
                 return
             #ここからメイン実行文
-            movie1 = [tmp_movie[0], True]    # 元動画のパス1, カラーはTrue
-            movie2 = [tmp_movie[1], True]    # 元動画のパス2, カラーはTrue
+            movie1 = [tmp_movie[2], True]    # 元動画のパス1, カラーはTrue
+            movie2 = [tmp_movie[3], True]    # 元動画のパス2, カラーはTrue
             path_out = "app/static/app/result/"+str(u_id)+".mp4"        # 保存する動画のパス
             scale_factor = 1                  # FPSにかけるスケールファクター
 
@@ -173,8 +187,28 @@ class  editView(TemplateView):
             m_space_hcombine(movie1, movie2, path_out, scale_factor)
 
         elif cnt == 3:
+
+            if cnt == 3:
+                video = (VideoFileClip(tmp_movie[0]).crop(x1=189,y1=0,x2=945,y2=640))
+                video.write_videofile("app/static/app/result/"+str(u_id)+"tri1.mp4",fps=29)
+                tmp_movie.append("app/static/app/result/"+str(u_id)+"tri1.mp4")
+                cnt = cnt + 1
+
+            if cnt == 4:
+                video = (VideoFileClip(tmp_movie[1]).crop(x1=189,y1=0,x2=945,y2=640))
+                video.write_videofile("app/static/app/result/"+str(u_id)+"tri2.mp4",fps=29)
+                tmp_movie.append("app/static/app/result/"+str(u_id)+"tri2.mp4")
+                cnt = cnt + 1
+
+            if cnt == 5:
+                video = (VideoFileClip(tmp_movie[2]).crop(x1=189,y1=0,x2=945,y2=640))
+                video.write_videofile("app/static/app/result/"+str(u_id)+"tri3.mp4",fps=29)
+                tmp_movie.append("app/static/app/result/"+str(u_id)+"tri3.mp4")
+                cnt = cnt + 1
+
             # 3つの画像を横に連結する関数
             def image_hcombine(im_info1,im_info2,im_info3):
+
                 img1 = im_info1[0]                       # 1つ目の画像
                 img2 = im_info2[0]                       # 2つ目の画像
                 img3 = im_info3[0]                       # 3つ目の画像
@@ -234,9 +268,9 @@ class  editView(TemplateView):
                 return
 
             #ここからメイン実行文
-            movie1 = [tmp_movie[0], True]    # 元動画のパス1, カラーはTrue
-            movie2 = [tmp_movie[1], True]    # 元動画のパス2, カラーはTrue
-            movie3 = [tmp_movie[2], True]    # 元動画のパス3, カラーはTrue
+            movie1 = [tmp_movie[3], True]    # 元動画のパス1, カラーはTrue
+            movie2 = [tmp_movie[4], True]    # 元動画のパス2, カラーはTrue
+            movie3 = [tmp_movie[5], True]    # 元動画のパス3, カラーはTrue
             path_out = "app/static/app/result/"+str(u_id)+".mp4"        # 保存する動画のパス
             scale_factor = 1                  # FPSにかけるスケールファクター
 
