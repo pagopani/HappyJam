@@ -22,6 +22,10 @@ class genreView(TemplateView):
         if request.method == 'POST':
             if 'single'in request.POST:
                 request.session['mode'] = 'single'
+                user = User(created_date ="")
+                user.save()
+                request.session['uid'] = user.id
+                
 
             if 'multi'in request.POST:
                 request.session['mode'] = 'multi'

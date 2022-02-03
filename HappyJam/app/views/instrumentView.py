@@ -26,9 +26,9 @@ class instrumentView(TemplateView):
             mode=request.session['mode']
             
             if mode == "single" and p_flag == 0:
-                user = User(created_date ="")
-                user.save()
-                request.session['uid'] = user.id
+                #user = User(created_date ="")
+                #user.save()
+                #request.session['uid'] = user.id
                 u_id=request.session['uid']
                 print(u_id)
 
