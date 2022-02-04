@@ -31,7 +31,7 @@ class continueView(TemplateView):
                     fileobject = FileSystemStorage()
                     #同じファイルが存在するなら削除
                     if fileobject.exists(filename+".webm")==True:
-                        print(exist)
+                        print("exist")
                         fileobject.delete(filename+".webm")
 
                     fileobject.save((filename+".webm"),movie) #保存
