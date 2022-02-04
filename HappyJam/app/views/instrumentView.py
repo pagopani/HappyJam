@@ -17,11 +17,6 @@ class instrumentView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         if request.method == 'POST':
-            #録画完了したことあるかのフラグ
-            if not "p_flag" in request.session:
-                request.session['p_flag'] = 0
-
-
             p_flag=request.session['p_flag']
             mode=request.session['mode']
             

@@ -26,6 +26,7 @@ class genreView(TemplateView):
                 user = User(created_date ="")
                 user.save()
                 request.session['uid'] = user.id
+                request.session['p_flag'] = 0
                 
 
             if 'multi'in request.POST:
