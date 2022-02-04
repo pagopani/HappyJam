@@ -29,6 +29,11 @@ class continueView(TemplateView):
                 if request.FILES['movie_record']:
                     movie = request.FILES['movie_record']
                     fileobject = FileSystemStorage()
+                    #同じファイルが存在するなら削除
+                    if fileobject.exists(filename+".webm")==True:
+                        print(exist)
+                        fileobject.delete(filename+".webm")
+
                     fileobject.save((filename+".webm"),movie) #保存
                     """try:
                         tags = EasyID3(str("./media/"+filename+".mp4"))

@@ -29,8 +29,7 @@ class camerapreviewView(TemplateView):
                     single = Single(uid =user,instrument_id=inst)
                     single.save()
                 except IntegrityError as e:
-                    if 'unique constraint' in e.message: # or e.args[0] from Django 1.10
-                        single=Single.objects.get(uid=u_id,instrument_id=1)
+                    single=Single.objects.get(uid=u_id,instrument_id=inst)
 
             if 'bass'in request.POST:
                 request.session['inst'] = 'bass'
@@ -39,8 +38,7 @@ class camerapreviewView(TemplateView):
                     single = Single(uid =user,instrument_id=inst)
                     single.save()
                 except IntegrityError as e:
-                    if 'unique constraint' in e.message: # or e.args[0] from Django 1.10
-                        single=Single.objects.get(uid=u_id,instrument_id=2)
+                    single=Single.objects.get(uid=u_id,instrument_id=inst)
                 
             if 'drum'in request.POST:
                 request.session['inst'] = 'drum'
@@ -49,11 +47,8 @@ class camerapreviewView(TemplateView):
                     single = Single(uid =user,instrument_id=inst)
                     single.save()
                 except IntegrityError as e:
-                    if 'unique constraint' in e.message: # or e.args[0] from Django 1.10
-                        single=Single.objects.get(uid=u_id,instrument_id=3)
+                    single=Single.objects.get(uid=u_id,instrument_id=inst)
             
-        inst=request.session['inst'] 
-        print(inst)
         return render(request,'app/CameraPreview.html')
 
 
