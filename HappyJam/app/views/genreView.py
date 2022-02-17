@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpRequest
 from django.http import HttpResponse
 from django.views.generic import TemplateView
+from ..models import User
 
 
 class genreView(TemplateView):
@@ -22,6 +23,11 @@ class genreView(TemplateView):
         if request.method == 'POST':
             if 'single'in request.POST:
                 request.session['mode'] = 'single'
+                user = User(created_date ="")
+                user.save()
+                request.session['uid'] = user.id
+                request.session['p_flag'] = 0
+                
 
             if 'multi'in request.POST:
                 request.session['mode'] = 'multi'

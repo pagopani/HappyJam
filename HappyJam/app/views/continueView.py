@@ -29,6 +29,11 @@ class continueView(TemplateView):
                 if request.FILES['movie_record']:
                     movie = request.FILES['movie_record']
                     fileobject = FileSystemStorage()
+                    #同じファイルが存在するなら削除
+                    if fileobject.exists(filename+".webm")==True:
+                        print("exist")
+                        fileobject.delete(filename+".webm")
+
                     fileobject.save((filename+".webm"),movie) #保存
                     """try:
                         tags = EasyID3(str("./media/"+filename+".mp4"))
@@ -44,12 +49,12 @@ class continueView(TemplateView):
             #動画変換
             stream = ffmpeg.input(("./media/"+filename+".webm")) 
             stream = ffmpeg.output(stream, ("./media/"+filename+".mp4")) 
-            ffmpeg.run(stream)
+            ffmpeg.run(stream, overwrite_output=True)
             
             #音楽抽出
             stream = ffmpeg.input("./media/"+filename+".mp4") 
             stream = ffmpeg.output(stream, ("./media/"+filename+".wav")) 
-            ffmpeg.run(stream)
+            ffmpeg.run(stream, overwrite_output=True)
 
             #Musicテーブルに登録&Movieテーブルも登録
             music = Music(music = (filename + ".wav"))
